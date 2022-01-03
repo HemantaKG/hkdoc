@@ -1,7 +1,3 @@
-## Find The Length of Longest Palindrome Number of Even Length of Given Number
-### Name: find_palindrome_len_v1.c
-
-```c
 /*
 *********************************************************************************************************
 * Find The Length of Longest Palindrome Number of Even Length of Given Number
@@ -137,5 +133,3 @@ int removeCHAR(char * tmp2, char ch, char * tmp3){
 	count= strlen(tmp2)- strlen(tmp3);
 	return count;
 }
-
-```
