@@ -133,5 +133,3 @@ int removeCHAR(char * tmp2, char ch, char * tmp3){
 	count= strlen(tmp2)- strlen(tmp3);
 	return count;
 }
-
-```
