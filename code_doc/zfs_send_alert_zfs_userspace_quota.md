@@ -1,19 +1,17 @@
 ## The python script helps to check zfs user's quota used by the user and sends alert mesaage to users if the user consumed >=80% of allocated zfs user quota
+### filename: python zfs_userspace_alert.py
 
 ```python
 
-### filename: python zfs_userspace_alert.py
-"""
-The python script helps to check zfs user's quota used by the user and sends alert mesaage to users;
-if the user consumed >=80% of allocated zfs user quota
-
-#crontad add, run script at every 12 hours
-0 */12 * * * python /opt/zfs_userspace_check/zfs_userspace_alert.py
-
-Hemanta Kumar G.
-ICTS-TIFR
-DT20180321 
-"""
+# The python script helps to check zfs user's quota used by the user and sends alert mesaage to users, if the user consumed >=80% of allocated zfs user quota
+#
+# crontad add, run script at every 12 hours
+# 0 */12 * * * python /opt/zfs_userspace_check/zfs_userspace_alert.py
+#
+# Hemanta Kumar G.
+# ICTS-TIFR
+# DT20180321 
+#
 
 from email.mime.text import MIMEText
 from subprocess import Popen, PIPE
