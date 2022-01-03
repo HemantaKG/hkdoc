@@ -81,4 +81,4 @@ getent passwd it
 getent passwd hemanta.kumar
 ```
 
-(Ref)[https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/configure-ldap-client-on-ubuntu-16-04-debian-8.html|Ref]
+[Ref](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/configure-ldap-client-on-ubuntu-16-04-debian-8.html)
