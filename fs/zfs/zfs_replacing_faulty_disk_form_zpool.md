@@ -1,11 +1,17 @@
-==== Faulty disk repalce and detach: zpool degraded state ====
-Follow the steps to detach the faulty disk
-  - check zpool health
-  - replace the faulty disk with space disk
-  - detach the faulty disk after **resilver process** compleates
+# Faulty disk repalce and detach from zpool
 
-    #step1: zpool status showing pool "jbod1" DEGRADED, due to one of the disk UNAVAIL "wwn-0x5000c5008574ac3b"
-    [root@nas2 ~]# zpool status -x
+Follow the steps to detach the faulty disk
+- check zpool health
+- replace the faulty disk with space disk
+- let the **resilver process** complete
+- detach the faulty disk after **resilver process** complete
+
+## step0: 
+Note: zpool status degraded
+zpool status showing pool "jbod1" DEGRADED, due to one of the disk UNAVAIL "wwn-0x5000c5008574ac3b"
+```bash
+zpool status -x
+```
 	  pool: jbod1
 	 state: DEGRADED
 	status: One or more devices could not be used because the label is missing or
@@ -35,13 +41,16 @@ Follow the steps to detach the faulty disk
 		spares
 			wwn-0x5000c50085724d67    AVAIL   
 			wwn-0x5000c5008590b16f    AVAIL   
-	
 
-    #step2.0: Replace the UNAVAIL disk by spare disk "wwn-0x5000c50085724d67"
-    zpool replace jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b /dev/disk/by-id/wwn-0x5000c50085724d67
+## step1: Replace the UNAVAIL disk by spare disk "wwn-0x5000c50085724d67"
+```bash
+zpool replace jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b /dev/disk/by-id/wwn-0x5000c50085724d67
+```
 
-  #step2.1: Resilver in progress, it will take some time to resilver 8.87T data
-	[root@nas2 ~]# zpool status -x
+## step2: Resilver in progress, it will take some time to resilver 8.87T data, wait for resilver process complete
+```bash
+zpool status -x
+```
 	  pool: jbod1
 	 state: DEGRADED
 	status: One or more devices is currently being resilvered.  The pool will
@@ -75,8 +84,10 @@ Follow the steps to detach the faulty disk
 			wwn-0x5000c5008590b16f      AVAIL   
 	errors: No known data errors
 
-	#step2.2: Resilver process compleated 
-	[root@nas2 ~]# zpool status -x
+## step3: Resilver process compleated 
+```bash
+zpool status -x
+```
 	  pool: jbod1
 	 state: DEGRADED
 	status: One or more devices could not be used because the label is missing or
@@ -110,13 +121,20 @@ Follow the steps to detach the faulty disk
 			wwn-0x5000c5008590b16f      AVAIL   
 	errors: No known data errors
 
-    #step3: Detach faulty disk
-    zpool detach jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b
+## step4: Detach faulty disk
+```bash
+zpool detach jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b
+```
 
-	#step4: check zpool staus
-	[root@nas2 ~]# zpool status -x
+## step5: Check zpool status for healthy
+```bash
+zpool status -x
+```
 	all pools are healthy
-	[root@nas2 ~]# zpool status
+
+```bash
+zpool status
+```
 	  pool: jbod1
 	 state: ONLINE
 		scan: resilvered 908G in 6h0m with 0 errors on Tue Jan 23 20:13:31 2018
@@ -142,9 +160,10 @@ Follow the steps to detach the faulty disk
 			wwn-0x5000c5008590b16f    AVAIL   
 	errors: No known data errors
 
-==== Disk fault analysis: What? and Where? ====
+## Disk fault analysis: What? and Where?
 We can analyze the disk in the following ways
-  - check the system recorded hardware log at **/var/log/syslog** and **/var/log/messages**
-  - Using **[[disk_health_check_using_smartctl|smartctl]]** tool to detail analysis of disk
-==== Referance ====
-  - [[https://pthree.org/2012/12/11/zfs-administration-part-vi-scrub-and-resilver/|scrub and resilver]]
+- check the system recorded hardware log at **/var/log/syslog** and **/var/log/messages**
+- Using [smartctl](disk_health_check_using_smartctl) tool to detail analysis of disk
+
+## Referance
+- [scrub and resilver](https://pthree.org/2012/12/11/zfs-administration-part-vi-scrub-and-resilver/)
