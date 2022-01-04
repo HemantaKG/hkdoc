@@ -57,6 +57,7 @@ nano /etc/yum.repos.d/zfs.repo
 > metadata_expire=7d
 > gpgcheck=1
 > gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux
+> 
 
 The ZFS on Linux packages can now be installed using yum
 ```bash
