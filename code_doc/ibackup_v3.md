@@ -1,12 +1,12 @@
 ## This script helps to auto do the following tasks:
-### 1. dump MySQL database using "mysqldump"; file saved at ${mysqldump_loc} directory with name ${MYSQLDUMP_FILE} on source host
-###	2. backup above generated Mysql dump file to backup storage; at location ${mysqldump_destination_loc}
-###	3. backup specified source data directories ${source_data_dir} to location ${data_destination_loc on backup storage
-###	4. recods "log" and "error" to ${logfile_loc} location on source host with name "_idackup***.log" and "_ibackup_***.err" respectivily
-###	5. sends backup status notification email to list of users ${send_email_to}) 
-### 6. removes all last 7 days old files log, err and mysql-dump files 
+#### 1. dump MySQL database using "mysqldump"; file saved at ${mysqldump_loc} directory with name ${MYSQLDUMP_FILE} on source host
+#### 2. backup above generated Mysql dump file to backup storage; at location ${mysqldump_destination_loc}
+#### 3. backup specified source data directories ${source_data_dir} to location ${data_destination_loc on backup storage
+#### 4. recods "log" and "error" to ${logfile_loc} location on source host with name "_idackup***.log" and "_ibackup_***.err" respectivily
+#### 5. sends backup status notification email to list of users ${send_email_to}) 
+#### 6. removes all last 7 days old files log, err and mysql-dump files 
 
-### filename: ibackup.sh
+### Filename: ibackup.sh
 
 
 ```bash
