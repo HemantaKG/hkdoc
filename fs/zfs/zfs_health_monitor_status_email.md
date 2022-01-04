@@ -1,28 +1,10 @@
-====== ZFS Health Monitor and Send Email Report ======
-==== Install Mail Server ====
-=== Install "postfix" mail server ===
-Debian and Ubuntu:
-<code>
-apt-get install postfix
-apt-get install mailutils
+# ZFS Health Monitor and Send Email Report
 
-cp /usr/share/postfix/main.cf.debian /etc/postfix/main.cf
-</code>
-CentOS:
-<code>
-yum install postfix
-</code>
-== Add/modifi relayhost ==
-Add/modify **/etc/postfix/main.cf** file as
-<code>
-nano /etc/postfix/main.cf
-relayhost = [change smtp hostname]
-</code>
+# zfs and zpool Filesystem Health Check Script
+## Create a shell script "Ex: filename "zpool_health_check.sh" location "/opt/"
+### Filename: zpool_health_check.sh
 
-
-==== Health Check Script ====
-=== Create a shell script "Ex: filename "zpool_health_check.sh" location "/opt/" ===
-<file sh "zpool_health_check.sh">
+```bash
 #! /bin/sh
 #
 # Calomel.org
@@ -103,15 +85,35 @@ else
 fi
 
 ### EOF ###
+```
 
+# Install Mail Server
+## Install "postfix" mail server
+Debian and Ubuntu:
+```bash
+apt-get install postfix
+apt-get install mailutils
+```
 
+CentOS:
+```bash
+yum install postfix
+```
 
-</file>
-==== Set linux crontad for regular run ====
+## Add/modifi relayhost
+modify **/etc/postfix/main.cf** file as
+
+```bash
+nano /etc/postfix/main.cf
+relayhost = [change smtp hostname]
+```
+
+# Set linux crontab job
 Open "crontad" and add lines to regular run of above shell script
-<code>
+```bash
 crontad -e
 
 #run the script daily at 08:00 hours
 0 8 * * * /opt/zfs_health_check.sh
-</code>
+```
+
