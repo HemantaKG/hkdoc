@@ -1,5 +1,6 @@
 <details><summary>HPC</summary>
 <p>
+
 #### We can hide anything, even code!
 
     ```ruby
@@ -10,6 +11,7 @@
 
 <details><summary>Filesystem</summary>
 <p>
+
 #### We can hide anything, even code!
 
     ```ruby
@@ -20,6 +22,7 @@
 
 <details><summary>SysAdmin</summary>
 <p>
+
 #### We can hide anything, even code!
 
     ```ruby
