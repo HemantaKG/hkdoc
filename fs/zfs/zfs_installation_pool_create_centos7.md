@@ -72,7 +72,7 @@ sudo yum install kernel-devel zfs
 ```
 
 # Creating a zpool
-## List all disks ===
+## List all disks
 ```bash
 lsblk
 ls -l /dev/disk/by-id/*
