@@ -12,6 +12,7 @@ zpool status showing pool "jbod1" DEGRADED, due to one of the disk UNAVAIL "wwn-
 ```bash
 zpool status -x
 ```
+
 	  pool: jbod1
 	 state: DEGRADED
 	status: One or more devices could not be used because the label is missing or
@@ -42,6 +43,7 @@ zpool status -x
 			wwn-0x5000c50085724d67    AVAIL   
 			wwn-0x5000c5008590b16f    AVAIL   
 
+
 ## step1: Replace the UNAVAIL disk by spare disk "wwn-0x5000c50085724d67"
 ```bash
 zpool replace jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b /dev/disk/by-id/wwn-0x5000c50085724d67
@@ -51,7 +53,8 @@ zpool replace jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b /dev/disk/by-id/wwn-0
 ```bash
 zpool status -x
 ```
-	  pool: jbod1
+
+	pool: jbod1
 	 state: DEGRADED
 	status: One or more devices is currently being resilvered.  The pool will
 		continue to function, possibly in a degraded state.
@@ -84,10 +87,12 @@ zpool status -x
 			wwn-0x5000c5008590b16f      AVAIL   
 	errors: No known data errors
 
+
 ## step3: Resilver process compleated 
 ```bash
 zpool status -x
 ```
+
 	  pool: jbod1
 	 state: DEGRADED
 	status: One or more devices could not be used because the label is missing or
@@ -121,6 +126,7 @@ zpool status -x
 			wwn-0x5000c5008590b16f      AVAIL   
 	errors: No known data errors
 
+
 ## step4: Detach faulty disk
 ```bash
 zpool detach jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b
@@ -130,7 +136,7 @@ zpool detach jbod1 /dev/disk/by-id/wwn-0x5000c5008574ac3b
 ```bash
 zpool status -x
 ```
-	all pools are healthy
+> all pools are healthy
 
 ```bash
 zpool status
