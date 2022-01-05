@@ -1,4 +1,4 @@
-- (https://github.com/zfsonlinux/zfs/wiki/Custom-Packages#get-the-source-code)
+- https://github.com/zfsonlinux/zfs/wiki/Custom-Packages#get-the-source-code
 - [zfs on linux source tar](https://github.com/zfsonlinux/zfs/releases)
 - [zfs: error while loading shared libraries: libnvpair.so.1](https://github.com/zfsonlinux/zfs/issues/6577)
 - [ZFS on Linux](https://github.com/zfsonlinux)
