@@ -1,6 +1,8 @@
 # ZFS pool management, zpool issue resolve commands
 ## Managing ZFS Storage Pool Properties
-- set 'autoreplace= on' [References Link](http://docs.oracle.com/cd/E19253-01/819-5461/6n7ht6r00/index.html)
+- set 'autoreplace= on' 
+[References Link](http://docs.oracle.com/cd/E19253-01/819-5461/6n7ht6r00/index.html)
+
 ```bash
 zpool get all jbod1
 zpool set autoreplace=on jbod1
