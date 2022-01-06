@@ -1,6 +1,6 @@
 # ZFS pool management, zpool issue resolve commands
 ## Managing ZFS Storage Pool Properties
-[References](http://docs.oracle.com/cd/E19253-01/819-5461/6n7ht6r00/index.html)
+[Reference](http://docs.oracle.com/cd/E19253-01/819-5461/6n7ht6r00/index.html)
 - set 'autoreplace= on' 
 
 ```bash
