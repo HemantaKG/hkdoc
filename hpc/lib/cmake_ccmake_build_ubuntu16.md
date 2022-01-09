@@ -1,4 +1,4 @@
-# CMAKE Build from Source
+# Cmake Build from Source
 ## Download source, compile and install
 Note: [Ref install with ccmake](https://askubuntu.com/questions/736198/how-to-install-cmake-ccmake-from-source)
 Install following package if you want to ''ccmake'' otherwise not required
