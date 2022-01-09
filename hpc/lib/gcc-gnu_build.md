@@ -2,7 +2,7 @@
 Note: gcc-7-1-0 version
 gmp, mpfr, mpc are required for GCC source installation
 
-## gmp-4.3.2.tar.bz2 installation
+## gmp installation
 ```bash 
 wget https://ftp.gnu.org/gnu/gmp/gmp-4.3.2.tar.bz2
 tar xfj gmp-4.3.2.tar.bz2
@@ -13,7 +13,7 @@ make check
 make install
 ```
 
-## mpfr-2.4.2.tar.bz2 installation
+## mpfr installation
 ```bash
 wget --no-check-certificate https://www.mpfr.org/mpfr-2.4.2/mpfr-2.4.2.tar.bz2
 tar xfj mpfr-2.4.2.tar.bz2
@@ -24,7 +24,7 @@ make check
 make install
 ```
 
-## mpc-0.8.1.tar.gz installation
+## mpc installation
 ```bash
 wget https://mirror.math.princeton.edu/pub/gcc/infrastructure/mpc-0.8.1.tar.gz
 tar -xzvf mpc-0.8.1.tar.gz
