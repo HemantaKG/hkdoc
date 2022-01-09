@@ -1,4 +1,4 @@
-## Install prerequired packages:
+## Install prerequired packages
 ```bash
 yum -y install gcc gcc-c++ gcc-gfortran kernel-devel
 ```
@@ -15,7 +15,7 @@ make
 make install
 ```
 
-## Add OpenMPI to system **PATH**:
+## Add OpenMPI to system **PATH**
 ```bash
 nano /etc/bashrc
 
