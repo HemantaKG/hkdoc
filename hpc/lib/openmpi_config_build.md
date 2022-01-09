@@ -24,5 +24,5 @@ export PATH="$PATH:/share/openmpi/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/share/openmpi/lib/"
 ```
 
-www.mpich.org (download OpenMPI tar file)
-http://www.slothparadise.com/how-to-setup-mpi-on-centos-7-2-connected-virtual-machines-part-2/
+* www.mpich.org (download OpenMPI tar file)
+* http://www.slothparadise.com/how-to-setup-mpi-on-centos-7-2-connected-virtual-machines-part-2/
