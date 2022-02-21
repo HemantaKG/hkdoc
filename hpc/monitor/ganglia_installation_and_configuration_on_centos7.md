@@ -1,5 +1,5 @@
 # Ganglia instalation on master node
-Ref:(https://linuxcluster.wordpress.com/2010/01/01/installing-and-configuring-ganglia-on-centos-5-4/)
+(Ref|https://linuxcluster.wordpress.com/2010/01/01/installing-and-configuring-ganglia-on-centos-5-4/)
 NOTE: 
 Mater node IP: 10.10.0.2
 
@@ -8,15 +8,13 @@ yum install ganglia rrdtool ganglia-gmetad ganglia-gmond ganglia-web
 '''
 
 # Configuration on master node
-## Edit "gmetad.conf"
+Edit "gmetad.conf"
 Add datasource name and gridname
 '''
 nano /etc/ganglia/gmetad.conf
 
-#add data source name
-data_source "mario_cluster" 10.10.0.2:8649
-#gridname
-gridname "mario_cluster"
+>data_source "mario_cluster" 10.10.0.2:8649
+>gridname "mario_cluster"
 '''
 
 # Edit "gmond.conf"
@@ -24,49 +22,37 @@ Modify as follow;
 '''
 nano /etc/ganglia/gmond.conf
 
-## make following changes
-# cluster block
 cluster {
   name = "mario_cluster"
   owner = "unspecified"
   latlong = "unspecified"
   url = "unspecified"
 }
-# host block
+
 host {
   location = "<<change FQHN>>"
 }
-# udp channel blocks
-udp_send_channel {
-  # bind_hostname = yes # Highly recommended, soon to be default.
-  # This option tells gmond to use a source address
-  # that resolves to the machine's hostname.  Without
-  # this, the metrics may appear to come from any
-  # interface and the DNS names associated with
-  # those IPs will be used to create the RRDs.
 
-  ## mcast_join = 239.2.11.71
+udp_send_channel {
   host = 10.10.0.2
   port = 8649
   ttl = 1
 }
+
 /* You can specify as many udp_recv_channels as you like as well. */
 udp_recv_channel {
-  ## mcast_join = 239.2.11.71
   port = 8649
-  ## bind = 239.2.11.71
   retry_bind = true
-  # Size of the UDP buffer. If you are handling lots of metrics you really
-  # should bump it up to e.g. 10MB or even higher.
-  # buffer = 10485760
 }
 '''
 
 # Edit "ganglia.conf" file
 Modify **ganglia.conf** file under **/etc/httpd/conf.d** to access Ganglia web-page as follow;
+add following lines of statement in <Location /ganglia> tab
+
 '''
 nano /etc/httpd/conf.d/ganglia.conf
-# add following lines of statement in <Location /ganglia> tab
+
 AllowOverride None
 Require all granted
 '''
