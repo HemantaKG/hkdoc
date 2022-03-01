@@ -11,7 +11,7 @@ ssh-keygen -t rsa
 cat .ssh/id_rsa.pub | ssh root@node* 'cat >> .ssh/authorized_keys'
 ````
 
-# with NFS mount
+## with NFS mount
 ````
 ssh-keygen -t rsa
 cat .ssh/id_rsa.pub >> .ssh/authorized_keys
