@@ -1,5 +1,5 @@
-# TensorFlow installation/configuration and issues
-tensorflow env setup
+# TensorFlow installation/configuration
+## Tensorflow env setup
 ````
 # create virtualenv:
 python3.5 -m venv tfdir
