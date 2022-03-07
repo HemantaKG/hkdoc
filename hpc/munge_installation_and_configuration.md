@@ -1,1 +1,0 @@
-Please follow the Munge installation step from the following page [[slurm_workload_manager_installation_and_configuration_on_centos7|Slurm and Munge installation and configuration]] 
