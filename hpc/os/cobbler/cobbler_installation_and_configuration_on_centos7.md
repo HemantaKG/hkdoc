@@ -163,43 +163,49 @@ htdigest /etc/cobbler/users.digest "Cobbler" cobbler
 ````
 NOTE: access cobbler web: ''https://localhost/cobbler_web''
 
-## Cobbler Repo add and Reposync
-Ref:[[http://cobbler.github.io/manuals/2.4.0/4/1/5_-_Repos.html|Repos]], [[http://cobbler.github.io/manuals/2.4.0/4/2/5_-_Reposync.html|Reposync]],[[https://github.com/cobbler/cobbler/wiki/Manage-yum-repos|Manage yum repos]]
-<code>
+## Cobbler "repo" add and "reposync"
+repo: shttp://cobbler.github.io/manuals/2.4.0/4/1/5_-_Repos.html
+reposync: http://cobbler.github.io/manuals/2.4.0/4/2/5_-_Reposync.html
+Manage yum repos: https://github.com/cobbler/cobbler/wiki/Manage-yum-repos
+
+````
 cobbler repo add --mirror=http://mirror.centos.org/centos/7/os/x86_64/ --name=centos7
 cobbler reposync
-</code>
-==== Adding Additional repos urls ====
-  * We can add additional ''repos'' in kickstart file for installation of extra packages which are not available in ''iso''. We can add many ''repos'' as
-<code>
+````
+
+## Adding Additional repos urls
+We can add additional ''repos'' in kickstart file for installation of extra packages which are not available in ''iso''. We can add many ''repos'' as
+````
 repo --name=source-2 --baseurl=http://10.0.10.10/cobbler/repo_mirror/centos7
 repo --name=source-3 --baseurl=http://ftp.riken.jp/Linux/fedora/epel/7/x86_64/
 repo --name=source-4 --baseurl=http://ftp.iitm.ac.in/centos/
-</code>
-==== Reference ====
-  * [[https://cobbler.github.io/quickstart/|Cobbler quickstart]]
-  * [[https://cobbler.readthedocs.io/en/latest/|Cobbler Documentation]]
-  * [[http://cobbler.github.io/manuals/2.6.0/5_-_Web_Interface.html|Cobbler web-interface]]
-==== Some Handy Commands ====
-  * Get ''kickstart'' file linked with ''system''
-<code>
+````
+
+## Reference
+- Cobbler quickstart: https://cobbler.github.io/quickstart/
+- Cobbler Documentation: https://cobbler.readthedocs.io/en/latest/
+- Cobbler web-interface: http://cobbler.github.io/manuals/2.6.0/5_-_Web_Interface.html
+
+## Some Handy Commands
+Get ''kickstart'' file linked with ''system''
+````
 cobbler system getks --name=foo | less
-</code>
-  * List repo
-<code>
+````
+List repo
+````
 yum repolist
-</code>
-  * List all yum ''groups'' of repo
-<code>
+````
+List all yum ''groups'' of repo
+````
 yum group list
-</code>
-==== Troubleshooting ====
-  * If ''PIX Boot'' not staring, then check following:
-    * ''Add tcp/udp ports to iptable''
-    * restart ''tftp.service''
-  * [[https://www.centos.org/forums/viewtopic.php?t=57419|''dracut'' cant locate ''/dev/root'']]
-**ERROR:**
-<code>
+````
+
+## Troubleshooting
+If ''PIX Boot'' not staring, then check following:
+- ''Add tcp/udp ports to iptable''
+- restart ''tftp.service''
+ERROR: ''dracut'' cant locate ''/dev/root'': https://www.centos.org/forums/viewtopic.php?t=57419
+````
 ...
 [  205.095282] dracut-initqueue[669]: Warning: /dev/root does not exist
  Starting Dracut Emergency Shell...
@@ -207,8 +213,8 @@ Warning: /dev/root does not exist
 
 Generating "/run/initramfs/rdsosreport.txt"
 ...
-</code>
-**RESOLVE:**
-<code> 
+````
+RESOLVE:
+````
 cobbler distro edit --name=centos7-x86_64 --kopts="inst.repo=http://10.0.10.10/cobbler/ks_mirror/centos7"
-</code>
+````
