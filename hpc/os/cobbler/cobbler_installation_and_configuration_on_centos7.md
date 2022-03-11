@@ -1,11 +1,11 @@
-==== Cobbler installation and configuration ====
+# Cobbler installation and configuration
 System details:
 - controller/server/master node
-   - hostname: mgn/mgn.test.cluster
-   - ip: 10.0.10.10
+  - hostname: mgn/mgn.test.cluster
+  - ip: 10.0.10.10
 - compute nodes
-   - hostname n1, n2
-   - ip: 10.0.10.1, 10.0.10.2
+  - hostname n1, n2
+  - ip: 10.0.10.1, 10.0.10.2
 - Install a VM and setup a static IP
 - Add hosts to **/etc/hosts** file
 - Disable **selinux**
