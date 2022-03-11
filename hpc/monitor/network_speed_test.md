@@ -1,6 +1,9 @@
-===== Diagnose Network Speed within the Nodes =====
-**[[https://linode.com/docs/networking/diagnostics/install-iperf-to-diagnose-network-speed-in-linux/|iPerf]]** is a command-line tool used in the diagnostics of network speed issues. iPerf measures the **maximum network throughput** a server can handle. It is particularly useful when experiencing network speed issues, as you can use iPerf to determine which server is unable to reach maximum throughput.
-== How to Use iPerf ==
+# Diagnose Network Speed within the Nodes
+https://linode.com/docs/networking/diagnostics/install-iperf-to-diagnose-network-speed-in-linux/
+
+"iPerf" is a command-line tool used in the diagnostics of network speed issues. iPerf measures the **maximum network throughput** a server can handle. It is particularly useful when experiencing network speed issues, as you can use iPerf to determine which server is unable to reach maximum throughput.
+
+## How to Use iPerf
 iPerf must be installed on both computers between which you are testing the connection. If you are using a Unix or Linux-based operating system on your personal computer, you may be able to install iPerf on your local machine.
 === Install iPerf ===
 == On Debian and Ubuntu: ==
