@@ -1,5 +1,5 @@
 # OpenMP Tutorial
-*Best OpenMP blog(s): http://jakascorner.com/blog/2016/04/omp-introduction.html
+* Best OpenMP blog(s): http://jakascorner.com/blog/2016/04/omp-introduction.html
 
 # MPI Tutorial
 * MPI Tutorial: http://mpitutorial.com/tutorials/mpi-hello-world/
