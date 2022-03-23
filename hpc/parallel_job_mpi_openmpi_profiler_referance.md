@@ -1,4 +1,7 @@
-# MPI Tutorial - Example
+# OpenMP Tutorial
+*Best OpenMP blog(s): http://jakascorner.com/blog/2016/04/omp-introduction.html
+
+# MPI Tutorial
 * MPI Tutorial: http://mpitutorial.com/tutorials/mpi-hello-world/
 * HPC Course at UCSC: https://ams250-spring17-01.courses.soe.ucsc.edu/
 * MM with mpi: https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_mm.c
