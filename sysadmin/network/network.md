@@ -1,43 +1,38 @@
-  * [[network#Packate forwarding (Netting)|Packate forwarding (Netting)]]
-  * [[network#Configuring static IP|Configuring static IP]]
-  * [[network#Set network interface to get DHCP IP (newly installed system)|Set network interface to get DHCP IP (newly installed system)]]
-  * [[network#Could not retrieve mirrorlist|Could not retrieve mirrorlist]]
-  * [[network#Fail to update (or) install any rpm package using yum|Fail to update (or) install any rpm package using yum]]
-  * [[network#Adding Gateway|Adding Gateway]]
-===== Packate forwarding (Netting) =====
-  * First flash all ''iptable'' settings before ''netting''
-<code>
+# Packate forwarding
+* First flash all ''iptable'' settings before ''netting''
+````
 iptables -F
-</code>
-  * Now run below commands for ''netting''
+````
+* Now run below commands for ''netting''
 NOTE: Public interface ''enp0s29u1u6'' and Local interface ''enp3s0''
-<code>
+````
 iptables -t nat -A POSTROUTING -o enp0s29u1u6 -j MASQUERADE
 iptables -A FORWARD -i enp3s0 -j ACCEPT
-</code>
+````
 NOTE:
-  * //**''/etc/resolve.conf'' and ''GATEWAY'' was definded but still node not getting internet and ''ping 8.8.8.8'' not pinging, than do ''iptable'' flash and rerun the ''netting''**//
-  * on **CentOS** system please check **''/etc/sysctl.conf''** file:
-<code>
+* ''/etc/resolve.conf'' and ''GATEWAY'' was definded but still node not getting internet and ''ping 8.8.8.8'' not pinging, than do ''iptable'' flash and rerun the ''netting''
+* on CentOS system please check ''/etc/sysctl.conf'' file:
+````
 nano /etc/sysctl.conf
 net.ipv4.ip_forward=1
-</code>
-  * List iptable settings
-<code>
+````
+* List iptable settings
+````
 iptables -L
-</code>
+````
 ----
-===== Configuring static IP =====
-==== On CentOS: ====
-  * Modify the ''/etc/sysconfig/network-scripts/ifcfg-enp*'' file as
-    * change ''BOOTPROTO'' to ''none''
-    * add following two properties at the end of the file
-      * ''IPADDR=10.10.0.10''
-      * ''PREFIX=24''
+
+# Configuring static IP
+## CentOS:
+* Modify the ''/etc/sysconfig/network-scripts/ifcfg-enp*'' file as
+  * change ''BOOTPROTO'' to ''none''
+  * add following two properties at the end of the file
+    * IPADDR=10.10.0.10
+    * PREFIX=24
 NOTE: change IP address and prefix as per your system, keep other properties unchanged
 
-**EX:** modifing properties in **ifcfg-enp2s0** interface file to set static IP on CentOS
-<code>
+EX: modifing properties in "ifcfg-enp2s0" interface file to set static IP on CentOS
+````
 nano /etc/sysconfig/network-scripts/ifconf-enp2s0
 
 TYPE=Ethernet
@@ -61,13 +56,13 @@ IPADDR=10.0.10.20
 PREFIX=24
 ZONE=public
 GATEWAY=10.0.10.10
-</code>
+````
 NOTE: change **UUID**, **DEVICE**, **NAME**, **IPADDR**, **PREFIX**, **GATEWAY** accourding to your requirements
-==== On Debian: ====
-On Debian and Ubuntu OS, the static IP for all interfaces are configured in "//**/etc/network/interfaces**//" file. To set static IP do as follow:
 
-NOTE: Whereas in CentOS each interface has its own interface file. 
-<code>
+## Debian:
+On Debian and Ubuntu OS, the static IP for all interfaces are configured in "/etc/network/interfaces" file. To set static IP do as follow:
+NOTE: Whereas in CentOS each interface has its own interface file.
+````
 nano /etc/network/interfaces
 
 # The loopback network interface
@@ -87,9 +82,10 @@ auto eth2
 iface eth2 inet static
 address 10.0.0.x
 netmask 255.255.255.0
-</code>
-To set virtual IP on one of the interface:
-<code>
+````
+
+# How to set a virtual IP for one of the interface in Debian
+````
 ...
 # Modified on DT20180803, Humpty node upgrade, virtual port created for ganglia
 # Local IP 10G interface
@@ -102,26 +98,33 @@ netmask 255.255.255.0
 iface eth2:0 inet static
 address 10.0.0.5
 netmask 255.255.255.0
-</code>
+````
 ----
-===== Set network interface to get DHCP IP (newly installed system) =====
-==== On CentOS: ====
-  * modify ''ONBOOT'' parameter of ''/etc/sysconfig/network-scripts/ifcfg-enp*'' to ''yes''
-  * check for IP address ''ip addr show''
 
+# Set network interface to get DHCP IP (newly installed system)
+CentOS:
+* modify ''ONBOOT'' parameter of ''/etc/sysconfig/network-scripts/ifcfg-enp*'' to ''yes''
+* check for IP address ''ip addr show''
 ----
-===== 8.8.8.8 unreachable =====
-<color #ed1c24>ISSUE</color>:
-  * In case if your facing ''connect network is unreachable'' issue or
-  * ''ping 8.8.8.8'' fail or unreachable issue
-<color #22b14c>RESOLVE</color>:
-  * **add/check ''GATEWAY'' in network interface file**
-  * [OPTIONAL] check **/etc/resolve,conf** file, to add ''nameserver 8.8.8.8''
-  * [[https://devops.profitbricks.com/tutorials/deploy-outbound-nat-gateway-on-centos-7/|check/add for ip_forward enable]] ''echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.d/ip_forward.conf''
 
+# 8.8.8.8 unreachable
+ISSUE:
+* In case if your facing ''connect network is unreachable'' issue or
+* ''ping 8.8.8.8'' fail or unreachable issue
+RESOLVE:
+* add/check ''GATEWAY'' in network interface file
+* OPTIONAL: check **/etc/resolve,conf** file, to add ''nameserver 8.8.8.8''
+* check/add for ip_forward enable: https://devops.profitbricks.com/tutorials/deploy-outbound-nat-gateway-on-centos-7/
+
+RESOLVE:
+````
+''echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.d/ip_forward.conf''
+````
 ----
-===== Could not retrieve mirrorlist =====
-<color #ed1c24>ISSUE</color>:
+
+# Could not retrieve mirrorlist
+ISSUE:
+````
 Could not retrieve mirrorlist...
     [root@archive ~]# yum update
     Loaded plugins: fastestmirror, langpacks
@@ -134,20 +137,31 @@ Could not retrieve mirrorlist...
           
           2. Reconfigure the baseurl/etc. for the repository, to point to a working
      ...
-<color #22b14c>RESOLVE</color>:
-check **/etc/resolve,conf** file and add ''nameserver 8.8.8.8''
-===== Fail to update (or) install any rpm package using yum =====
-<color #ed1c24>ISSUE(s)</color> any one:
-  * [Errno 14] curl#6 - "Could not resolve host: centos.mirror.snu.edu.in; Unknown error"
-  * ''yum update'' or ''yum install ...'' fails with following type os error <code>Could not retrieve mirrorlist http://... error was
-14: curl#6 - "Could not resolve host: mirrorlist.centos.org; Unknown error"</code>
-<color #22b14c>RESOLVE</color>: check ''/etc/resolve,conf'' file and **add appropriate nameserver** ''nameserver 8.8.8.8''
+````
 
+RESOLVE:
+* check "/etc/resolve,conf" file and add ''nameserver 8.8.8.8''
 ----
-===== Adding Gateway =====
-  * Temporary: from the command line
-<code>route add default gw 10.0.10.10 eth0</code>
-  * Permanent: add gateway IP at the end of the **/etc/sysconfig/network-script/ifcon-en* ** file.
-    * //GATEWAY=10.0.10.10''//
 
+# Fail to update (or) install any rpm package using yum =====
+ISSUE(s) if any of teh following:
+* [Errno 14] curl#6 - "Could not resolve host: centos.mirror.snu.edu.in; Unknown error"
+* ''yum update'' or ''yum install ...'' fails with following type os error 
+````
+Could not retrieve mirrorlist http://... error was
+14: curl#6 - "Could not resolve host: mirrorlist.centos.org; Unknown error"
+````
+RESOLVE:
+* check ''/etc/resolve,conf'' file and **add appropriate nameserver** ''nameserver 8.8.8.8''
+----
+
+# Add Gateway
+* Temporary: from the command line
+````
+route add default gw 10.0.10.10 eth0
+````
+* Permanent: add gateway IP at the end of the "/etc/sysconfig/network-script/ifcon-en"
+````
+GATEWAY=10.0.10.10
+````
 ----
