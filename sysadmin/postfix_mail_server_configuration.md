@@ -30,9 +30,14 @@ systemctl status postfix.service
 ````
 postsuper -d ALL
 ````
+
 ## Send a test mail from command line
 ````
 echo "THIS IS A TEST EMAIL" | mail -s "Enter the subject" <<email id>>
 ````
+
+## Troubleshooting
+* Check network insterface "GATEWAY"
+* Check "/etc/resolv.conf" file
 
 REF: [[https://www.interserver.net/tips/kb/linux-mail-command-usage-examples/| send test mail example]]
