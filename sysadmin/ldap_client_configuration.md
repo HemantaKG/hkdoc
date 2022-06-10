@@ -70,8 +70,8 @@ vim /etc/pam.d/common-session
 >>  session required        pam_mkhomedir.so skel=/etc/skel umask=077
 >>  
 
+## restart nscd service to apply all changes to ldap client
 ```bash
-restart nscd service to apply all changes to ldap client
 service nscd restart
 ```
 
