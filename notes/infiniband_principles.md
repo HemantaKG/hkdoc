@@ -55,6 +55,7 @@ Enhanced Data Rate (EDR) 25GB/s* 4= 100GB/s
   * Persistent through reboots (it is fixed)
   * HCA has a unique GUID
   * IB switch has only on GUID
+  * It is a layer one address
 
 - Every IB switch has only on GUID. is it correct? if yes, How you indentify the each port or What is the unique id of each port of the IB switch?
 ````
@@ -79,10 +80,12 @@ port GUID= IB switch GUID + port number
 - What is non-blocking netwrok?
 - What is semi-non-blocking netwrok? How to calculate blocking ratio?
 - Unicast and Multicast (no broadcast in infiniBand)
-- What is LID and who provides LID? What are the LID ranges?
+- What is LID and who provides LID? What are the LID ranges? (it is layer two address)
 - What is partitioning in InfiniBand? What is use of it?
 ----
 
 - What is GID (Global Indentifier)? What is the use of it?
+- What is responsibility of MAD (Management Datagram)
+- What is responsibility of SM (Subnet Manager? LFT (Linear Forwording Table)?
 - 
 
