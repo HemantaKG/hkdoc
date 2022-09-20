@@ -79,7 +79,10 @@ port GUID= IB switch GUID + port number
 - What is non-blocking netwrok?
 - What is semi-non-blocking netwrok? How to calculate blocking ratio?
 - Unicast and Multicast (no broadcast in infiniBand)
-- Wat is LID and who provides LID? What are the LID ranges?
+- What is LID and who provides LID? What are the LID ranges?
 - What is partitioning in InfiniBand? What is use of it?
+----
+
+- What is GID (Global Indentifier)? What is the use of it?
 - 
 
