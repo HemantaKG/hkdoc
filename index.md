@@ -33,8 +33,8 @@
     </details>
     
   <ul>
-      <li><a href=https://hemantakg.github.io/hkdoc/hpc/copy_data_from_to_cluster.md</a> Date Copy</li>
-      <li><a href=https://hemantakg.github.io/hkdoc/hpc/copy_data_from_to_cluster.md</a> Data Copy1</li>
+      <li><a href=https://hemantakg.github.io/hkdoc/hpc/copy_data_from_to_cluster.md> Date Copy </a></li>
+      <li><a href=https://hemantakg.github.io/hkdoc/hpc/copy_data_from_to_cluster.md> Data Copy1 </a></li>
       <li>...</li>
  </ul>
 </details>
