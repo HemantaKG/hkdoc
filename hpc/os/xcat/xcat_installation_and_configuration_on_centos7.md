@@ -1,31 +1,33 @@
-=== System details ===
-  * controller/server/master node
-    * hostname: mgn
-    * FQDN: mng.test.cluster
-    * ip: 10.0.10.20
-  * compute nodes
-    * hostname n1, n2
-    * FQDN: n1.test.cluster, n1.test.cluster
-    * ip: 10.0.10.21, 10.0.10.22
+### Host Details:
+- Controller OR Master Node
+  - hostname: mgn
+  - FQDN: mng.test.cluster
+  - ip: 10.0.10.20
+- Compute Node(s)
+  - hostname n1, n2
+  - FQDN: n1.test.cluster, n1.test.cluster
+  - ip: 10.0.10.21, 10.0.10.22
 
-===== Make your xCAT master node ready for xCAT installation and configuration =====
+# Make xCAT master node ready for xCAT installation and configuration:
 The following are pre-installation steps; must check before going for xCAT installation and configuration
-  - **Update OS** ''yum update''
-  - Disable **SELinux**
-  - Add **IP**, **FQDN**, **hostname** into **/etc/hosts** file
-  - Add **hostname** into **/etc/hostname** file
-  - **reboot** the system
-  - After reboot please check **hostname** and **domain name**; with commands ''hostname'' and ''hostname -d'' respectively
-  - [optional] configure **NFS server** on master node and set **NFS mount** directories /home, /opt, /share ... if your are planning to mount some directories on compute nodes
-==== Mount iso file and add its repo ====
-== Copy iso file, create directory and mount iso ==
-<code>
+- **Update OS** ''yum update''
+- Disable **SELinux**
+- Add **IP**, **FQDN**, **hostname** into **/etc/hosts** file
+- Add **hostname** into **/etc/hostname** file
+- **reboot** the system
+- After reboot please check **hostname** and **domain name**; with commands ''hostname'' and ''hostname -d'' respectively
+- [optional] configure **NFS server** on master node and set **NFS mount** directories /home, /opt, /share ... if your are planning to mount some directories on compute nodes
+
+## Mount iso file and add its repo
+### Copy iso file, create directory and mount iso
+````
 mkdir -p /mnt/iso/centos7
 mount -o loop /root/iso/CentOS-7-x86_64-DVD-1708.iso /mnt/iso/centos7
-</code>
-== Create a yum repo file ==
-create a repo file for above mounted OS disk.
-<code>
+````
+
+## Create a yum repo file ==
+Create a repo file for above mounted OS disk.
+````
 nano /etc/yum.repos.d/centos7-dvd.repo
 
 [centos7-dvd]
@@ -33,27 +35,29 @@ name=Centos 7 packages
 baseurl=file:///mnt/iso/centos7
 enabled=1
 gpgcheck=1
-</code>
-===== xCAT installation =====
+````
+
+# xCAT package installation:
 Install xCAT 
-<code>
+````
 wget https://raw.githubusercontent.com/xcat2/xcat-core/master/xCAT-server/share/xcat/tools/go-xcat -O - > /tmp/go-xcat
 chmod +x /tmp/go-xcat
-</code>
+````
+
 To install latest stable version
-<code>
+````
 /tmp/go-xcat install
-</code>
+````
 **NOTE:** for first-time installation source **xcat.sh** file
-<code>
+````
 source /etc/profile.d/xcat.sh
-</code>
+````
 **optional:** If you want ot install latest development version ''/tmp/go-xcat -x devel install''
 
-===== Prepare master for OS provisioning =====
-==== Set some useful environment variables ====
+# Prepare master for OS provisioning
+## Set some useful environment variables
 Set following environment variables. Which make the xCAT configuration easier.
-<code>
+````
 export sms_name=master
 export sms_ip=10.0.10.20
 export domain_name=test.cluster
@@ -66,28 +70,31 @@ export c_mac=( "74:27:EA:D1:BF:C6" "74:27:EA:02:5B:48" )
 export c_name=( "n1" "n2" )
 export compute_regex="n*"
 export compute_prefix="n"
-</code>
-==== Create an osimage object definition ====
+````
+
+## Create an osimage object definition
 XCAT uses ''copycds'' command to create an image which will be available to install nodes
-<code>
+````
 copycds /root/os_iso/CentOS-7-x86_64-DVD-1708.iso
-</code>
+````
 >[root@master xcat_os_prov]# copycds CentOS-7-x86_64-DVD-1708.iso 
 >>Copying media to /install/centos7.4/x86_64
 >>Media copy operation successful
-list all osimage definitions that are created by ''copycds'' command; [[http://xcat-docs.readthedocs.io/en/stable/guides/admin-guides/basic_concepts/node_type.html|for more information]]
-shows the list of all os images created by above statement
-<code>
+
+- List all osimage definitions that are created by ''copycds'' (REF: command; [[http://xcat-docs.readthedocs.io/en/stable/guides/admin-guides/basic_concepts/node_type.html|for more information]])
+- Shows the list of all os images created by above statement
+````
 lsdef -t osimage
-</code>
+````
 >[root@master xcat_os_prov]# lsdef -t osimage
 >>centos7.4-x86_64-install-compute  (osimage)
 >>centos7.4-x86_64-netboot-compute  (osimage)
 >>centos7.4-x86_64-statelite-compute  (osimage)
-shows the details information of given os image
-<code>
+
+- Shows the details information of given os image
+````
 lsdef -t osimage centos7.4-x86_64-install-compute
-</code>
+````
 >[root@master xcat_os_prov]# lsdef -t osimage centos7.4-x86_64-install-compute
 >>Object name: centos7.4-x86_64-install-compute
 >>    imagetype=linux
@@ -101,32 +108,35 @@ lsdef -t osimage centos7.4-x86_64-install-compute
 >>    profile=compute
 >>    provmethod=install
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
-**NOTE:** For **statefull** OS installation on compute node, use OS image **centos7.4-x86_64-install-compute**
-==== Modify the default kickstart file ====
-=== Set node root password ===
+- **NOTE:** For **statefull** OS installation on compute node, use OS image **centos7.4-x86_64-install-compute**
+
+## Modify the default kickstart file
+### Set node root password
 Modify the **default kickstart file** as follow
-  * add timezone
-  * add root passwd
-<code>
+- add timezone
+- add root passwd
+````
 nano /opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
 
 timezone Asia/Kolkata
 rootpw --iscrypted Xau2d7MuvWSX6
-</code>
-**NOTE:**
+````
+- **NOTE:**
   * Always add encrypted password; its mandatory and secure
   * generate crypt by using any method; using perl inline command as follow
     * password **_r00t_00** is encrypted using following **perl inline command**
-<code>
+````
 perl -e 'print crypt("_r00t_00","Xa") . "\n";'p
-</code>
-=== Add post installation tasks ===
+````
+
+## Add post installation tasks
 Add **post installation** tasks into **post installation block** of default kickstart file
-  * post installation block starts with **%post** and ends at **%end**
-  * Here, we are adding following post-installation tasks:
-    - NFS directory mount
-    - adding GATEWAY into an interface file
-<code>
+- post installation block starts with **%post** and ends at **%end**
+- Here, we are adding following post-installation tasks:
+  - NFS directory mount
+  - adding GATEWAY into an interface file
+
+````
 nano /opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
 
 %post
@@ -137,19 +147,22 @@ echo "10.0.10.20:/share    /share    nfs     defults    0    0" >> /etc/fstab
 echo "GATEWAY=10.0.10.20" >> /etc/sysconfig/network-scripts/ifcfg-eno1
 ...
 %end
-</code>
-==== Define custom disk partition details ====
-  * Make a directory namely **custom** under **/install**
-  * Create a file under **/install/custom** and define custom disk partition details.
-  * Add/update osimage object's **partitionfile** propertity value  
+````
 
-== Make a custom directory ==
-<code>
+## Define custom disk partition details
+- Make a directory namely **custom** under **/install**
+- Create a file under **/install/custom** and define custom disk partition details.
+- Add/update osimage object's **partitionfile** propertity value  
+
+### Make a custom directory
+````
 mkdir -p /install/custom/
 cd /install/custom
-</code>
-== Create file with partition details ==
-<code>
+````
+
+### Create file with partition details
+````
+cd  /install/custom
 nano my-partitions
 
 # Partition clearing information
@@ -160,11 +173,12 @@ part /boot --asprimary --fstype="ext4" --size=1024
 part / --asprimary --fstype="ext4" --size=200000
 part /scratch --fstype="ext4" --size=666000
 part swap --fstype="swap" --size=64000
-</code>
-== Add/Update partition file to xact object osimage ==
-<code>
+````
+
+### Add/Update partition file to xact object osimage
+````
 chdef -t osimage centos7.4-x86_64-install-compute partitionfile=/install/custom/my-partitions
-</code>
+````
 >[root@master custom]# lsdef -t osimage centos7.4-x86_64-install-compute
 >>Object name: centos7.4-x86_64-install-compute
 >>    imagetype=linux
@@ -179,24 +193,26 @@ chdef -t osimage centos7.4-x86_64-install-compute partitionfile=/install/custom/
 >>    profile=compute
 >>    provmethod=install
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
-==== Set for file synchronization after OS installation ====
+
+## Set for file synchronization after OS installation
 The **synclist file** contains the configuration entries that specify where the files should be synced to
-  * Make a derictory namely **install** under **/install/custom**
-  * Create a synclist file **compute.synclist**
-  * Add entries to synclist file
-<code>
+- Make a derictory namely **install** under **/install/custom**
+- Create a synclist file **compute.synclist**
+- Add entries to synclist file
+````
 mkdir -p /install/custom/install
 touch /install/custom/install/compute.synclist
-</code>
-== Add entries to synclist file ==
-<code>
+````
+
+## Add entries to synclist file
+````
 echo "/etc/hosts -> /etc/hosts" > /install/custom/install/compute.synclist
     ...
-</code>
-== Add/Update synclist file to xcat osimage object ==
-<code>
+````
+### Add/Update synclist file to xcat osimage object
+````
 chdef -t osimage -o centos7.4-x86_64-install-compute synclists=/install/custom/install/compute.synclist
-</code>
+````
 >[root@master install]# lsdef -t osimage centos7.4-x86_64-install-compute
 >>Object name: centos7.4-x86_64-install-compute
 >>    imagetype=linux
@@ -212,13 +228,14 @@ chdef -t osimage -o centos7.4-x86_64-install-compute synclists=/install/custom/i
 >>    provmethod=install
 >>    synclists=/install/custom/install/compute.synclist
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
-==== Install additional packages and other packages ====
-**NOTE:** There are two kinds of packages as follow;
-  - The packages which either directly avaliable from OS official destro or comes alonge with OS DVD/CD. The xCAT default package list file (i.e. **/opt/xcat/share/xcat/install/centos/compute.centos7.pkglist**) contains the names of those packages
-  - The packages which neither directly avaliable from OS official destro nor comes alonge with OS DVD/CD.  They are stored in file **compute.otherpkgs.pkglist** under **/install/custom/install/centos/**
-=== Add common OS distro packages to "compute.centos7.pkglist" file ===
+
+## Install additional packages and other packages
+- **NOTE:** There are two kinds of packages as follow;
+- The packages which either directly avaliable from OS official destro or comes alonge with OS DVD/CD. The xCAT default package list file (i.e. **/opt/xcat/share/xcat/install/centos/compute.centos7.pkglist**) contains the names of those packages
+- The packages which neither directly avaliable from OS official destro nor comes alonge with OS DVD/CD.  They are stored in file **compute.otherpkgs.pkglist** under **/install/custom/install/centos/**
+## Add common OS distro packages to "compute.centos7.pkglist" file
 Add the common distro packages/package-group to the **compute.centos7.pkglist** file. These packages avaliable under the mounted directory. The following required packages and package-group are added for 
-<code>
+````
 chdef -t osimage centos7.4-x86_64-install-compute pkglist=/opt/xcat/share/xcat/install/centos/compute.centos7.pkglist
 
 nano /opt/xcat/share/xcat/install/centos/compute.centos7.pkglist
@@ -242,34 +259,35 @@ openssl
 vim
 nano
 httpd
-</code>
-=== Add other packages list ===
-  - make a directory **/install/post/otherpkgs/centos7.4/x86_64**
-  - move into the above directory
-  - copy all rmp file (of other package) into above directory
-  - run ''createrepo'' command
-  - Create a file with name **otherpkgs.list** and all other packages names in it
-  - Add/Update **otherpkgsdir** directory and **otherpkgs.list** file to osimage object defination
- 
-== make a directory, move in, copy rpm files and create repo ==
-<code>
+````
+
+## Add other packages list
+- make a directory **/install/post/otherpkgs/centos7.4/x86_64**
+- move into the above directory
+- copy all rmp file (of other package) into above directory
+- run ''createrepo'' command
+- Create a file with name **otherpkgs.list** and all other packages names in it
+- Add/Update **otherpkgsdir** directory and **otherpkgs.list** file to osimage object defination
+### make a directory, move in, copy rpm files and create repo
+````
 mkdir -p /install/post/otherpkgs/centos7.4/x86_64
 cd /install/post/otherpkgs/centos7.4/x86_64
 cp myrpms/* .
 createrepo .
-</code>
-== Create a file and add list of rmp names ==
-<code>
+````
+### Create a file and add list of rmp names
+````
 mkdir /install/custom/install/centos
 nano /install/custom/install/centos/compute.otherpkgs.pkglist
 myrmp1
 myrpm2
 ...
-</code>
-== Add/Update above created directory and file to osimage defination ==
-<code>
+````
+
+## Add/Update above created directory and file to osimage defination
+````
 chdef -t osimage centos7.4-x86_64-install-compute otherpkgdir=/install/post/otherpkgs/centos7.4/x86_64 otherpkglist=/install/custom/install/centos/compute.otherpkgs.pkglist
-</code>
+````
 >[root@master ~]# lsdef -t osimage centos7.4-x86_64-install-compute
 >>Object name: centos7.4-x86_64-install-compute
 >>    imagetype=linux
@@ -286,55 +304,61 @@ chdef -t osimage centos7.4-x86_64-install-compute otherpkgdir=/install/post/othe
 >>    provmethod=install
 >>    synclists=/install/custom/install/compute.synclist
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
-==== OS provisioning ====
+
+# OS provisioning
 source the env variable file "env_set.txt"
-<code>
+```
 source env_set.txt
-</code>
-== Limit dhcp allow interface ==
-<code>
+````
+## Limit dhcp allow interface
+````
 chdef -t site dhcpinterfaces="xcatmn|${sms_eth_internal}"
-</code>
-== Genetrate dhcp configuration file ==
-**NOTE:** check/keep dhcp.service on before running the below command to generate new dhcp.conf file
-<code>
+````
+## Genetrate dhcp configuration file
+- **NOTE:** check/keep dhcp.service on before running the below command to generate new dhcp.conf file
+````
 makedhcp -n
-</code>
-== Define IP/MAC for all compute nodes and create a group "compute" ==
-  * Define all compute nodes and make a group
-<code>
+````
+## Define IP/MAC for all compute nodes and create a group "compute"
+- Define all compute nodes and make a group
+````
 for ((i=0; i<$num_computes; i++)) ; do mkdef -t node ${c_name[i]} groups=compute,all ip=${c_ip[i]} mac=${c_mac[i]} netboot=pxe; done
-</code>
-  * Set domain name
-<code>
+````
+- Set domain name
+````
 chdef -t site domain=${domain_name}
-</code>
-  * Set xCAT OS provision method
-<code>
+````
+- Set xCAT OS provision method
+````
 chdef -t group compute provmethod=centos7.4-x86_64-install-compute
-</code>
-  * Make hosts, network and dns
-<code>
+````
+- Make hosts, network and dns
+````
 makehosts
 makenetworks 
 makedns -n
-</code>
-  * Get the node ready for OS installation
-<code>
+````
+- Get the node ready for OS installation
+````
 nodeset compute osimage=centos7.4-x86_64-install-compute
-</code>
-  * Restart DHCP service
-<code>
+````
+- Restart DHCP service
+````
 service dhcpd restart
-</code>
+````
 > Finally your ready to start PXE boot on all nodes, for OS installation with xCAT :-)
-==== Troubleshooting ====
-  - [[how_to_deactivate_virbr0_virtual_interface_devices_centos_gnome|How to deactivate "virbr0"]]
-==== Reference ====
-  - [[http://xcat-docs.readthedocs.io/en/stable/guides/install-guides/yum/|xCAT document]]
-  - [[http://xcat-docs.readthedocs.io/en/stable/guides/admin-guides/references/man1/xdsh.1.html|xdsh - Concurrently runs remote commands on multiple nodes]]
+----
 
-===== files =====
+# Troubleshooting
+- [[how_to_deactivate_virbr0_virtual_interface_devices_centos_gnome|How to deactivate "virbr0"]]
+----
+
+# Reference
+- [[http://xcat-docs.readthedocs.io/en/stable/guides/install-guides/yum/|xCAT document]]
+- [[http://xcat-docs.readthedocs.io/en/stable/guides/admin-guides/references/man1/xdsh.1.html|xdsh - Concurrently runs remote commands on multiple nodes]]
+----
+
+### Files used
 <code text env_set.txt>
 ##set env for 4 nodes
 
