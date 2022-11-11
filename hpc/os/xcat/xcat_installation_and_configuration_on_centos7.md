@@ -359,7 +359,8 @@ service dhcpd restart
 ----
 
 ### Files used
-<code text env_set.txt>
+- text env_set.txt
+````txt
 ##set env for 4 nodes
 
 export sms_ip=10.10.48.2
@@ -378,8 +379,10 @@ export c_name=( "cn1" "cn2" "cn3" "cn4" )
 
 export compute_regex="cn*"
 export compute_prefix="cn"
-</code>
-<code bash compute.centos7.tmpl>
+````
+
+- compute.centos7.tmpl
+````bash
 #
 #cmdline
 
@@ -570,9 +573,9 @@ part /boot --asprimary --fstype="ext4" --size=1024
 part / --asprimary --fstype="ext4" --size=200000
 part /scratch --fstype="ext4" --size=666000
 part swap --fstype="swap" --size=64000
-</code>
-
-<code bash compute.synclist>
+````
+- compute.synclist
+````bash
 ###########################################
 ## Before installation                   ##
 ## uncomment at OS installation phase    ##
@@ -599,9 +602,10 @@ part swap --fstype="swap" --size=64000
 /etc/slurm/slurm.conf -> /etc/slurm/slurm.conf
 #/home/it/xcat_os_prov/slurm_node/cgroup_allowed_devices_file.conf -> /etc/slurm/cgroup_allowed_devices_file.conf
 #/home/it/xcat_os_prov/slurm_node/cgroup.conf -> /etc/slurm/cgroup.conf
-</code>
+````
 
-<code bash compute.centos7.pkglist>
+- compute.centos7.pkglist
+````bash
 #Please make sure there is a space between @ and group name
 wget
 ntp
@@ -622,11 +626,12 @@ openssl
 vim
 nano
 httpd
-</code>
+````
 
-<code bash compute.otherpkgs.pkglist>
+- compute.otherpkgs.pkglist
+````bash
 epel-release
 ganglia-gmond
 libconfuse
 ganglia
-</code>
+````
