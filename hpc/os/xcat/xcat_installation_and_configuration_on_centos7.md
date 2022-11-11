@@ -38,14 +38,10 @@ gpgcheck=1
 ````
 
 # xCAT package installation:
-Install xCAT 
+Install latest stable version
 ````
 wget https://raw.githubusercontent.com/xcat2/xcat-core/master/xCAT-server/share/xcat/tools/go-xcat -O - > /tmp/go-xcat
 chmod +x /tmp/go-xcat
-````
-
-To install latest stable version
-````
 /tmp/go-xcat install
 ````
 **NOTE:** for first-time installation source **xcat.sh** file
