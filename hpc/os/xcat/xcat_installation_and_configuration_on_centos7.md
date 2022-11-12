@@ -25,7 +25,7 @@ mkdir -p /mnt/iso/centos7
 mount -o loop /root/iso/CentOS-7-x86_64-DVD-1708.iso /mnt/iso/centos7
 ````
 
-## Create a yum repo file ==
+## Create a yum repo file:
 Create a repo file for above mounted OS disk.
 ````
 nano /etc/yum.repos.d/centos7-dvd.repo
@@ -50,7 +50,7 @@ source /etc/profile.d/xcat.sh
 ````
 **optional:** If you want ot install latest development version ''/tmp/go-xcat -x devel install''
 
-# Prepare master for OS provisioning
+# Prepare master for OS provisioning:
 ## Set some useful environment variables
 Set following environment variables. Which make the xCAT configuration easier.
 ````
@@ -68,7 +68,7 @@ export compute_regex="n*"
 export compute_prefix="n"
 ````
 
-## Create an osimage object definition
+## Create an osimage object definition:
 XCAT uses ''copycds'' command to create an image which will be available to install nodes
 ````
 copycds /root/os_iso/CentOS-7-x86_64-DVD-1708.iso
@@ -106,7 +106,7 @@ lsdef -t osimage centos7.4-x86_64-install-compute
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
 - **NOTE:** For **statefull** OS installation on compute node, use OS image **centos7.4-x86_64-install-compute**
 
-## Modify the default kickstart file
+## Modify the default kickstart file:
 ### Set node root password
 Modify the **default kickstart file** as follow
 - add timezone
@@ -125,7 +125,7 @@ rootpw --iscrypted Xau2d7MuvWSX6
 perl -e 'print crypt("_r00t_00","Xa") . "\n";'p
 ````
 
-## Add post installation tasks
+## Add post installation tasks:
 Add **post installation** tasks into **post installation block** of default kickstart file
 - post installation block starts with **%post** and ends at **%end**
 - Here, we are adding following post-installation tasks:
@@ -156,7 +156,7 @@ mkdir -p /install/custom/
 cd /install/custom
 ````
 
-### Create file with partition details
+### Create file with partition details:
 ````
 cd  /install/custom
 nano my-partitions
@@ -171,7 +171,7 @@ part /scratch --fstype="ext4" --size=666000
 part swap --fstype="swap" --size=64000
 ````
 
-### Add/Update partition file to xact object osimage
+### Add/Update partition file to xact object osimage:
 ````
 chdef -t osimage centos7.4-x86_64-install-compute partitionfile=/install/custom/my-partitions
 ````
@@ -190,7 +190,7 @@ chdef -t osimage centos7.4-x86_64-install-compute partitionfile=/install/custom/
 >>    provmethod=install
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
 
-## Set for file synchronization after OS installation
+## Set for file synchronization after OS installation:
 The **synclist file** contains the configuration entries that specify where the files should be synced to
 - Make a derictory namely **install** under **/install/custom**
 - Create a synclist file **compute.synclist**
@@ -200,12 +200,12 @@ mkdir -p /install/custom/install
 touch /install/custom/install/compute.synclist
 ````
 
-## Add entries to synclist file
+## Add entries to synclist file:
 ````
 echo "/etc/hosts -> /etc/hosts" > /install/custom/install/compute.synclist
     ...
 ````
-### Add/Update synclist file to xcat osimage object
+### Add/Update synclist file to xcat osimage object:
 ````
 chdef -t osimage -o centos7.4-x86_64-install-compute synclists=/install/custom/install/compute.synclist
 ````
@@ -225,8 +225,8 @@ chdef -t osimage -o centos7.4-x86_64-install-compute synclists=/install/custom/i
 >>    synclists=/install/custom/install/compute.synclist
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
 
-## Install additional packages and other packages
-- **NOTE:** There are two kinds of packages as follow;
+## Install additional packages and other packages:
+- **NOTE:** There are two kinds of packages as follow
 - The packages which either directly avaliable from OS official destro or comes alonge with OS DVD/CD. The xCAT default package list file (i.e. **/opt/xcat/share/xcat/install/centos/compute.centos7.pkglist**) contains the names of those packages
 - The packages which neither directly avaliable from OS official destro nor comes alonge with OS DVD/CD.  They are stored in file **compute.otherpkgs.pkglist** under **/install/custom/install/centos/**
 ## Add common OS distro packages to "compute.centos7.pkglist" file
