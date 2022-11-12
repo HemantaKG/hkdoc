@@ -302,9 +302,9 @@ chdef -t osimage centos7.4-x86_64-install-compute otherpkgdir=/install/post/othe
 >>    template=/opt/xcat/share/xcat/install/centos/compute.centos7.tmpl
 
 # OS provisioning
-source the env variable file "env_set.txt"
+source the env variable file "env_set.sh"
 ```
-source env_set.txt
+source env_set.sh
 ````
 ## Limit dhcp allow interface
 ````
@@ -355,8 +355,8 @@ service dhcpd restart
 ----
 
 ### Files used
-- text env_set.txt
-````txt
+- text env_set.sh
+````sh
 ##set env for 4 nodes
 
 export sms_ip=10.10.48.2
