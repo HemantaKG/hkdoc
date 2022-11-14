@@ -488,7 +488,8 @@ firewall --disabled
 #timezone US/Mountain
 #timezone US/Central
 #timezone US/Eastern
-timezone --utc "#TABLE:site:key=timezone:value#"
+#timezone --utc "#TABLE:site:key=timezone:value#"
+timezone Asia/Kolkata
 
 #
 # Don't do X
