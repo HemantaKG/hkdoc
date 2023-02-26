@@ -1,4 +1,4 @@
-# Configure public_html directory access using apache/httpd service ====
+# "public_html" directory access using apache/httpd
 ## Install Apache server
 Intall Apache web server
 ````
