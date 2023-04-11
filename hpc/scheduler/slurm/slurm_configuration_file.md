@@ -123,8 +123,7 @@ StorageHost=localhost
 StoragePass=*****
 StorageUser=slurm
 StorageLoc=slurm_mario_db
-</file>
-----
+````
 
 ## Compute Node
 File location: /etc/slurm/cgroup.conf
@@ -143,8 +142,8 @@ AllowedSwapSpace=0
 MaxRAMPercent=100
 MaxSwapPercent=100
 MinRAMSpace=30
-</file>
-----
+````
+
 ## Compute Node
 ## File location: /etc/slurm/cgroup_allowed_devices_file.conf
 ```` bash
@@ -154,4 +153,4 @@ MinRAMSpace=30
 /dev/sda*
 /dev/cpu/*/*
 /dev/pts/*
-</file>
+````
