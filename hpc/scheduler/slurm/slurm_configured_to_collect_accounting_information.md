@@ -1,31 +1,32 @@
-===== Slurm accounting configuration =====
+# Slurm accounting configuration
 NOTE: Install MariaDB server before building Slurm rpms or installing Slurm for source
-=== Verify the slurm-sql package is installed ===
-<code>
+## Verify the slurm-sql package is installed
+```
 rpm -q mariadb-server mariadb-devel
 rpm -ql slurm-sql | grep accounting_storage_mysql.so
-</code>
+````
 **NOTE:** If **accounting_storage_mysql.so** not found than; locate the file and copy to "/usr/lib64/slurm" as;
-<code>
+````
 locate accounting_storage_mysql.so
 
 cp /root/rpmbuild/BUILD/slurm-17.02.8/src/plugins/accounting_storage/mysql/.libs/accounting_storage_mysql.so /usr/lib64/slurm/
 cp /root/rpmbuild/BUILD/slurm-17.02.8/src/plugins/jobcomp/mysql/.libs/jobcomp_mysql.so /usr/lib64/slurm/
-</code>
-==== Start database server ====
-=== start MariaDB service ===
-<code>
+````
+
+## Start database server
+````
 systemctl start mariadb
 systemctl enable mariadb
 systemctl status mariadb
-</code>
-==== Configure and set root password for new database server ====
-**NOTE:**
-  * Its needs to **set root password for root user**; for first time run of MariaDB database server
-  * remove all previous settings and example databases
-<code>
+````
+
+### Configure and set root password for new database server
+NOTE:
+- Its needs to **set root password for root user**; for first time run of MariaDB database server
+- remove all previous settings and example databases
+````
 /usr/bin/mysql_secure_installation
-</code>
+````
 >Enter current password for root (enter for none):
 >NOTE: just press enter
 >
@@ -37,35 +38,37 @@ systemctl status mariadb
 >Disallow root login remotely? [Y/n] y
 >Remove test database and access to it? [Y/n] y
 >Reload privilege tables now? [Y/n] y
-==== Create database for Slurm workload manager ====
+
+### Create database for Slurm workload manager
 Open mysql database as a root user using above root password. Create database for Slurm workload manager and grand all to slurm user 
-<code>
+````
 mysql -p
 
 grant all on slurm_acct_db.* TO 'slurm'@'localhost' identified by '<<password>>' with grant option;
 show VARIABLES LIKE 'have_innodb';
 create database slurm_acct_db;
 quit;
-</code>    
-**NOTE:** change **db name** <del>slurm_acct_db</del> and **db password** <del><<password>></del> to your db name and password
-==== Modify Slurm configuration files for slurm accounting group configuration ====
-  * Copy **/etc/slurm/slurmdbd.conf.example** to **/etc/slurm/slurmdbd.conf**
-  * Modify **slurm.conf** and **slurmdbb.conf** files [[ Slurm configuration file| Mario ]]
-==== start slurmdbd service ====
-start slurmdbd service
-<code>
+````
+NOTE: Change "db name" slurm_acct_db and "db password" password to your db name and password
+### Modify Slurm configuration files for slurm accounting group configuration
+- Copy **/etc/slurm/slurmdbd.conf.example** to **/etc/slurm/slurmdbd.conf**
+- Modify **slurm.conf** and **slurmdbb.conf** files [[ Slurm configuration file| Mario ]]
+
+### Start slurmdbd service
+````
 systemctl start slurmdbd.service
 systemctl enable slurmdbd.service
 systemctl status slurmdbd.service
-</code>
-===== Create Slurm accounting group and Add user under accounting group =====
+````
+
+## Create Slurm accounting group and Add user under accounting group
 NOTE: below cluster name must be same name as cluster name that given in slurm.conf file. Where **testcluster** is the slurm cluster name
-<code>
+````
 # create cluster group account
 sacctmgr add cluster testcluster
-</code>
-=== create accounts under above created cluster group ===
-<code>
+````
+### Create accounts under above created cluster group
+````
 # add a none test to group "testcluster" group (**not required)
 sacctmgr add account none,test Cluster=testcluster Description="none" Organization="none"
 
@@ -74,9 +77,9 @@ sacctmgr add account hpc Cluster=testcluster Description="prototype hpc cluster"
 
 # add cluster "guestusers" as accounting group to "testcluster" group
 sacctmgr add account guestusers Cluster=tetriscluster Description="Tetris HPC Cluster" Organization="<<name>>"
-</code>
-=== add users under account and set resource users limit(s)===
-<code>
+````
+### Add users under account and set resource users limit
+````
 # add user "it" to the accounting group "test"
 sacctmgr add user it Account=test
 
@@ -88,25 +91,26 @@ sacctmgr add user guest1 DefaultAccount=guestusers
 
 # set resource max limit(s) for above added user "guest1"
 sacctmgr modify user guest1 account=guestusers set MaxSubmit=1000 MaxJobs=240
-</code>
-=== Show all slurm accounting users ===
-<code>
+````
+
+### Show all slurm accounting users
+````
 sacctmgr show user -s
-</code>
-=== some more examples of accounting group and user ===
-<file txt add_user_slurm_accounting_group.txt>
+````
+
+### Some more examples of accounting group and user
+File: add_user_slurm_accounting_group.txt
+```` txt
 //Add to slurm.conf
 # user job limit(s)
 AccountingStorageEnforce=associations,limits
 #AccountingStorageEnforce=limits
-
 
 //Guest user CPU limit set
 sacctmgr add account guestusers Cluster=tetriscluster Description="Tetris HPC Cluster" Organization="<<name>>"
 sacctmgr add user guest1 Account=guestusers
 sacctmgr modify user guest1 set GrpTRES=cpu=96
 sacctmgr modify user where name=guest1 cluster=tetriscluster account=guestusers set maxjobs=96
-
 
 //working
 sacctmgr modify user guest1 cluster=tetriscluster account=guestusers set MaxJobs=320 MaxSubmit=1000
@@ -118,11 +122,9 @@ sacctmgr show user -s
 slurmd on nodes
 slurmcrld on master
 
-
 //Delete account
 sacctmgr delete user guest1 account=guestusers
 sacctmgr delete user guest2 account=guestusers
-
 
 //Add user(s) and set limit(s):
 # guest user(s):
@@ -131,7 +133,6 @@ sacctmgr modify user guest1 account=guestusers set MaxSubmit=1000 MaxJobs=240
 
 sacctmgr add user guest2 DefaultAccount=guestusers
 sacctmgr modify user guest2 account=guestusers set MaxSubmit=1000 MaxJobs=240
-
 
 # Add and modify user(s):
 sacctmgr add user hemanta.kumar DefaultAccount=icts
@@ -143,16 +144,16 @@ sacctmgr modify user hemanta.kumar account=icts set MaxSubmit=2000 MaxJobs=640
 //delete user [check for no job(s) in queue]:
 sacctmgr delete user guest1 account=guestusers
 
-
-
 // cluster utilization report (Slurm report)
 sreport cluster UserUtilizationByAccount format=Accounts,Cluster,TresCount,Login,Proper,Used
-</file>
-==== some usefull commands ====
-<code>
+````
+
+## Some usefull commands
+````
 sacct -S2018-01-31-11:40 -E2018-02-12-17:00 -X -o jobid,start,end,state,user,partition,jobname
-</code>
-==== Reference ====
-  * [[https://wiki.fysik.dtu.dk/niflheim/Slurm_database]]
-  * [[http://biocluster.ucr.edu/~jhayes/slurm/accounting.shtml]]
-  * [[https://slurm.schedmd.com/accounting.html]]
+````
+
+## Reference
+- [[https://wiki.fysik.dtu.dk/niflheim/Slurm_database]]
+- [[http://biocluster.ucr.edu/~jhayes/slurm/accounting.shtml]]
+- [[https://slurm.schedmd.com/accounting.html]]
