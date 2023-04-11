@@ -154,6 +154,6 @@ sacct -S2018-01-31-11:40 -E2018-02-12-17:00 -X -o jobid,start,end,state,user,par
 ````
 
 ## Reference
-- [[https://wiki.fysik.dtu.dk/niflheim/Slurm_database]]
-- [[http://biocluster.ucr.edu/~jhayes/slurm/accounting.shtml]]
-- [[https://slurm.schedmd.com/accounting.html]]
+- https://wiki.fysik.dtu.dk/niflheim/Slurm_database
+- http://biocluster.ucr.edu/~jhayes/slurm/accounting.shtml
+- https://slurm.schedmd.com/accounting.html
