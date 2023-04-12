@@ -81,7 +81,7 @@ NodeName=node5 NodeAddr=10.10.0.5 CPUs=48 Sockets=2 CoresPerSocket=12 ThreadsPer
 PartitionName=normal Nodes=node[1-3] Default=YES MaxTime=24:00:00 State=UP
 PartitionName=long Nodes=node[4-5] Default=NO MaxTime=INFINITE State=UP
 ````
-# Slurmdbd.conf
+----
 File location: /etc/slurm/slurmdbd.conf
 ````bash
 #
@@ -124,7 +124,7 @@ StoragePass=*****
 StorageUser=slurm
 StorageLoc=slurm_mario_db
 ````
-
+----
 ## Compute Node
 File location: /etc/slurm/cgroup.conf
 ```` bash
@@ -143,8 +143,7 @@ MaxRAMPercent=100
 MaxSwapPercent=100
 MinRAMSpace=30
 ````
-
-## Compute Node
+----
 File location: /etc/slurm/cgroup_allowed_devices_file.conf
 ```` bash
 /dev/null
@@ -154,9 +153,3 @@ File location: /etc/slurm/cgroup_allowed_devices_file.conf
 /dev/cpu/*/*
 /dev/pts/*
 ````
-
-# Referance
-https://slurm.schedmd.com/|Slurm workload manager
-https://www.slothparadise.com/how-to-install-slurm-on-centos-7-cluster/|Slurm configuration
-https://bugs.schedmd.com/show_bug.cgi?id=3701|slurmd start fail on nodes
-https://www.rc.colorado.edu/book/export/html/613|Interpreting scontrol job information (Example: "scontrol show job 123")
