@@ -103,3 +103,9 @@ The table below shows a summary of some of the Slurm commands. These commands ar
 |''squeue''|View status of your jobs|''squeue -u hemanta'' OR ''squeue -l''|
 |''sinfo''|View the cluster nodes, partions and node status information|''sinfo'' OR ''sinfo -lNe''|
 |''sacct''|Check current job by id number|''sacct -j 999999''|
+
+# Referance
+https://slurm.schedmd.com/|Slurm workload manager
+https://www.slothparadise.com/how-to-install-slurm-on-centos-7-cluster/|Slurm configuration
+https://bugs.schedmd.com/show_bug.cgi?id=3701|slurmd start fail on nodes
+https://www.rc.colorado.edu/book/export/html/613|Interpreting scontrol job information (Example: "scontrol show job 123")
