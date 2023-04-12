@@ -1,60 +1,86 @@
-=== Cluster details ===
-  * Number of nodes: 5
-    * node list: [node1, node2, node3, node4, node5]
-    * cpu per node: 48
-  * Total number of cpus: 240 (+48 master node)
+# Cluster details
+- Number of nodes: 5
+  - node list: [node1, node2, node3, node4, node5]
+  - cpu per node: 48
+- Total number of cpus: 240 (+48 master node)
 
-===== Slurm run job =====
-==== Serial job submit script ====
-slurm submit script: **serial_job.sub**
-    #!/bin/bash
-    # job name
-    #SBATCH --job-name=hw
-    # STDOUT file; "N" is node number and "j" job id number
-    #SBATCH --output=hw_%N_%j.out
-    # STDERR file; "N" is node number and "j" job id number
-    #SBATCH --error=hw_%N_%j.err
-    # number of nodes
-    #SBATCH --nodes=1
-    # number of taskes per node
-    #SBATCH --ntasks-per-node=1
-    # total memory requirment
-    #SBATCH --mem 10
-    # total wall-time
-    #SBATCH --time=00:05:00
-    
-    date
-    /bin/hostname
-    cd /home/hemanta/slurm_test
-    srun ./hw
-    date
-==== Parallel job submit script ====
-slurm submit script: **parallel_job.sub**
+# Slurm run job
+## Serial job submit script
+slurm submit script "serial_job.sub"
+````bash
+#!/bin/bash
+#
+# job name
+#SBATCH --job-name=hw
+#
+# STDOUT file; "N" is node number and "j" job id number
+#SBATCH --output=hw_%N_%j.out
+#
+# STDERR file; "N" is node number and "j" job id number
+#SBATCH --error=hw_%N_%j.err
+#
+# number of nodes
+#SBATCH --nodes=1
+#
+# number of taskes per node
+#SBATCH --ntasks-per-node=1
+#
+# total memory requirment
+#SBATCH --mem 10
+#
+# total wall-time
+#SBATCH --time=00:05:00
+#
+# send email notification
+#SBATCH --mail-user=<<email id>>
+#SBATCH --mail-type=ALL
+#
+date
+# executable file
+./hw
+date
+````
 
-    #!/bin/bash
-    # job name
-    #SBATCH --job-name=mpi_sample
-    # set the output file name
-    #SBATCH --output=mpi_sample.out
-    # set pertition
-    #SBATCH --partition=normal
-    # set the number of nodes
-    #SBATCH --nodes=3
-    # set the number of tasks per nodes
-    #SBATCH --ntasks-per-node=4
-    # set the amount of memory required per task
-    #SBATCH --mem-per-cpu=10
-    # set the wall time
-    #SBATCH --time=00:02:00
-    # send email notification
-    #SBATCH --mail-user=<<email id>>
-    #SBATCH --mail-type=ALL
-    
-    mpirun /home/hemanta/slurm_test/mpi_sample
-    date
-===== Slurm submit script flags =====
+## Parallel job submit script
+slurm submit script "parallel_job.sub"
+````bash
+#!/bin/bash
+#
+# job name
+#SBATCH --job-name=mpi_sample
+#
+# set the output file name
+#SBATCH --output=mpi_sample.out
+#
+# set pertition
+#SBATCH --partition=normal
+#
+# set the number of nodes
+#SBATCH --nodes=3
+#
+# set the number of tasks per nodes
+#SBATCH --ntasks-per-node=4
+#
+# set the amount of memory required per task
+#SBATCH --mem-per-cpu=10
+#
+# set the wall time
+#SBATCH --time=00:02:00
+#
+# send email notification
+#SBATCH --mail-user=<<email id>>
+#SBATCH --mail-type=ALL
+#
+date
+# executable file
+mpirun /home/hemanta/slurm_test/mpi_sample
+date
+````
+
+## Slurm submit script flags
 The table below shows a summary of some of Slurm submit script flags. These flags are described in more detail below along with links to the Slurm doc site.
 |**Resource**|**Flag Syntax**|**Description**|**Notes**|
+|---|---|---|---|
 |job name|--job-name=hello_test|Name of job|default is the JobID|
 |partition|--partition=normal|Partition is a queue for jobs|default on Mario is **normal** partition|
 |time|--time=01:00:00|Time limit for the job|here 1 hour. On Mario cluster: 24 hours on default partition **normal** and not time limit on partition **long**|
@@ -66,9 +92,11 @@ The table below shows a summary of some of Slurm submit script flags. These flag
 |error file|--error=test.err|Name of file for stderr|default is the JobID|
 |email address|--mail-user=username@buffalo.edu|User's email address|send email on submition and complition of job OR omit for no email|
 |email notification|--mail-type=ALL --mail-type=END|When email is sent to user.|omit for no email|
-===== Slurm commands =====
+
+# Slurm commands
 The table below shows a summary of some of the Slurm commands. These commands are described in more detail below along with links to the Slurm doc site.
 |**Slurm Command**|**Description**|**Syntex**|
+|---|---|---|
 |''sbatch''|Submit a batch serial or parallel job using slurm submit script|''sbatch slurm_submit_script.sub''|
 |''srun''|Run a script or application interactively|''srun --pty -p test -t 10 --mem 1000 /bin/bash [script or app]''|
 |''scancel''|Kill a job by job id number|''scancel 999999''|
