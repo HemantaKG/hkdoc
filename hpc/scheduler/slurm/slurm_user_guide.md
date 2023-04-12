@@ -101,7 +101,7 @@ The table below shows a summary of some of Slurm submit script flags. These flag
 |memory per CPU|''--mem-per-cpu=''1000|per core memory limit.  Do not use with **mem** flag|memory in **MB**|
 |output file|''--output=''test.out|Name of file for stdout|default is the **JobID**|
 |error file|''--error=''test.err|Name of file for stderr|default is the **JobID**|
-|email address|''--mail-user=''username@buffalo.edu|User's email address|send email on submition and complition of job OR omit for no email|
+|email address|''--mail-user=<<email id>>|User's email address|send email on submition and complition of job OR omit for no email|
 |email notification|''--mail-type=ALL'' ''--mail-type=END''|When email is sent to user.|omit for no email|
 
 # Slurm commands
