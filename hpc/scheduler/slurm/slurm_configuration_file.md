@@ -80,10 +80,10 @@ NodeName=node5 NodeAddr=10.10.0.5 CPUs=48 Sockets=2 CoresPerSocket=12 ThreadsPer
 # PARTITIONS
 PartitionName=normal Nodes=node[1-3] Default=YES MaxTime=24:00:00 State=UP
 PartitionName=long Nodes=node[4-5] Default=NO MaxTime=INFINITE State=UP
-</file>
-==== Slurmdbd.conf ====
-location: /etc/slurm/slurmdbd.conf
-<file bash slurmdbd.conf>
+````
+# Slurmdbd.conf
+File location: /etc/slurm/slurmdbd.conf
+````bash
 #
 # Example slurmdbd.conf file.
 #
