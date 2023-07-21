@@ -189,15 +189,15 @@ def plot_elapsed_bin_count(selected_rows_copy, bin_edges, bin_labels, title, xla
     # Use pd.cut to assign each row to the appropriate bin based on 'Elapsed' values
     selected_rows_copy['Elapsed Bin'] = pd.cut(selected_rows_copy['Elapsed'], bins=bin_edges, labels=bin_labels, right=False)
 
-    # # Print the DataFrame with the 'Elapsed Bin' column
-    # print(selected_rows_copy[['Elapsed', 'Elapsed Bin']])
+    # Print the DataFrame with the 'Elapsed Bin' column
+    print(selected_rows_copy[['Elapsed', 'Elapsed Bin']])
 
     # Count the occurrences of each bin label
     bin_counts = selected_rows_copy['Elapsed Bin'].value_counts()
 
-    # # Print the counts for each bin
-    # print("Bin Counts:")
-    # print(bin_counts)
+    # Print the counts for each bin
+    print("Bin Counts:")
+    print(bin_counts)
 
     # Set the Seaborn style to include gridlines
     sns.set_style('whitegrid')
@@ -239,11 +239,13 @@ def plot_elapsedtime_cputime_per_user(selected_rows_copy):
     total_cputime_per_user = selected_rows_copy.groupby('User')['CPUTime'].sum()
     total_elapsedtime_per_user = selected_rows_copy.groupby('User')['Elapsed'].sum()
 
+    # Find the maximum y-axis value between total_cputime_per_user and total_elapsedtime_per_user
+    max_y = max(total_cputime_per_user.max(), total_elapsedtime_per_user.max())
+
     # Create two subplots (side by side)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
     # Plot the total CPUTime for each user using a line chart with log scale and solid dots
-    sns.lineplot(x=total_cputime_per_user.index, y=total_cputime_per_user.values, dashes=False, ax=ax1)
     sns.scatterplot(x=total_cputime_per_user.index, y=total_cputime_per_user.values, color='blue', marker='o', s=30, ax=ax1)
     ax1.set_xlabel('User')
     ax1.set_ylabel('Total CPUTime (seconds)')
@@ -251,15 +253,14 @@ def plot_elapsedtime_cputime_per_user(selected_rows_copy):
     ax1.set_xticks(range(len(total_cputime_per_user.index)))
     ax1.set_xticklabels(total_cputime_per_user.index, rotation=45, ha='right')
     ax1.set_yscale('log')
+    ax1.set_ylim(0.1, max_y*10)  # Set y-axis limits based on the maximum value
     ax1.grid(True)
 
     # Annotate each data point on the plot with its corresponding value
     for x, y in zip(total_cputime_per_user.index, total_cputime_per_user.values):
-        # ax1.text(x, y, f'{y:.2e}', ha='left', va='center', fontsize=8, rotation=90)
         ax1.text(x, y, f'{seconds_to_time_str(y)}', ha='right', va='center', fontsize=8, rotation=90)
     
     # Plot the total ElapsedTime for each user using a line chart with log scale and solid dots
-    sns.lineplot(x=total_elapsedtime_per_user.index, y=total_elapsedtime_per_user.values, dashes=False, ax=ax2)
     sns.scatterplot(x=total_elapsedtime_per_user.index, y=total_elapsedtime_per_user.values, color='blue', marker='o', s=30, ax=ax2)
     ax2.set_xlabel('User')
     ax2.set_ylabel('Total ElapsedTime (seconds)')
@@ -267,13 +268,32 @@ def plot_elapsedtime_cputime_per_user(selected_rows_copy):
     ax2.set_xticks(range(len(total_elapsedtime_per_user.index)))
     ax2.set_xticklabels(total_elapsedtime_per_user.index, rotation=45, ha='right')
     ax2.set_yscale('log')
+    ax2.set_ylim(0.1, max_y*10)  # Set y-axis limits based on the maximum value
     ax2.grid(True)
 
     # Annotate each data point on the plot with its corresponding value
     for x, y in zip(total_elapsedtime_per_user.index, total_elapsedtime_per_user.values):
-        # ax2.text(x, y, f'{y:.2e}', ha='left', va='center', fontsize=8, rotation=90)
         ax2.text(x, y, f'{seconds_to_time_str(y)}', ha='right', va='center', fontsize=8, rotation=90)
 
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_elapsedtime_vs_cputime_box(selected_rows_copy, bin_edges, bin_labels, title, xlabel, ylabel):
+    # Use pd.cut to assign each row to the appropriate bin based on 'Elapsed' values
+    selected_rows_copy['Elapsed Bin'] = pd.cut(selected_rows_copy['Elapsed'], bins=bin_edges, labels=bin_labels, right=False)
+    print(selected_rows_copy)
+
+    # Create the box plot using Seaborn
+    plt.figure(figsize=(12, 6))
+    sns.boxplot(x='Elapsed Bin', y='Elapsed', data=selected_rows_copy, order=bin_labels)
+    # sns.scatterplot(data=selected_rows_copy, color='blue', marker='o', s=30)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.xticks(rotation=45, ha='right')
+    # Set the y-axis to log scale
+    plt.yscale('log')
     plt.tight_layout()
     plt.show()
 
@@ -283,10 +303,10 @@ def plot_elapsedtime_cputime_per_user(selected_rows_copy):
 # Data of the Year
 year= 2021
 # Number of CPU 'eq 1' or 'gt 1'
-ncpu= 'gt 1'
+ncpu= 'eq 1'
 
 # Read the data from the file.txt file
-filename = '2021/dt20210101-20211231.txt'
+filename = '2022/dt20220101-20221231.txt'
 with open(filename, 'r') as file:
     data = file.readlines()
 
@@ -312,7 +332,7 @@ selected_rows = df[(df['ReqCPUS'] != '1') & (df['State'] == 'COMPLETED') & (df['
 xlabel = 'Partition'
 ylabel = 'Job Count'
 title = (f'Job Frequency of Partition of ReqCPU {ncpu} [Year: {year}]')
-plot_frequency_job_partition(selected_rows, title, xlabel, ylabel)
+# plot_frequency_job_partition(selected_rows, title, xlabel, ylabel)
 
 # Create a copy of the selected_rows DataFrame
 selected_rows_copy = selected_rows.copy()
@@ -340,7 +360,7 @@ total_elapsedtime_per_user= calculate_elapsedtime_per_user(selected_rows_copy)
 # print(total_elapsedtime_per_user)
 
 # Plot 0.2: Plot total CPUTime and total ElapsedTime for each user using a line/scatter chart
-plot_elapsedtime_cputime_per_user(selected_rows_copy)
+# plot_elapsedtime_cputime_per_user(selected_rows_copy)
 
 
 # PART 1: Great Then Then 1 Day Elapsed Time Jobs
@@ -353,15 +373,32 @@ selected_rows_copy_gt1 = selected_rows_copy_gt1[selected_rows_copy_gt1['Elapsed'
 # Print the DataFrame with the modified 'ReqMem' column
 # print(selected_rows_copy_gt1)
 
-# PART 1.1: Find the frequency of each Job Elapsed Time of job Elapsed time gt 24H
-# Define the bin edges for the 'Elapsed' column (up to 30 days)
-bin_edges = np.arange(0, 30*24*60*60 + 1, 86400)
+# # PART 1.1: Find the frequency of each Job Elapsed Time of job Elapsed time gt 24H
+# # Define the bin edges for the 'Elapsed' column (up to 30 days)
+# bin_edges = np.arange(0, 30*24*60*60 + 1, 86400)
+# # Define the labels for each bin range
+# bin_labels = [f'{i}-{i+1} days' for i in range(30)]
+# xlabel = 'Time Bin'
+# ylabel = 'Job Count'
+# title = (f'Job Count of Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
+# plot_elapsed_bin_count(selected_rows_copy_gt1, bin_edges, bin_labels, title, xlabel, ylabel)
+
+# Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
+selected_rows_copy_gt20 = selected_rows_copy.copy()
+selected_rows_copy_gt20 = selected_rows_copy_gt20[selected_rows_copy_gt20['Elapsed'] > (86400.0*10.0)]
+print(selected_rows_copy_gt20)
+# Define the bin edges for the 'Elapsed' column (up to 10 days)
+# bin_edges = np.arange(86400*20, 30*24*60*60 + 1, 86400)
+bin_edges = np.append(np.arange(10, 31) * 86400, selected_rows_copy['Elapsed'].max() + 1)
+print(bin_edges)
 # Define the labels for each bin range
-bin_labels = [f'{i}-{i+1} days' for i in range(30)]
-xlabel = 'Time Bin'
-ylabel = 'Job Count'
-title = (f'Job Count of Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
-plot_elapsed_bin_count(selected_rows_copy_gt1, bin_edges, bin_labels, title, xlabel, ylabel)
+# bin_labels = [f'{i+20}-{i+21} days' for i in range(10)]
+bin_labels = [f'{i+10}-{i+11} days' for i in range(20)] + [f'>30 days']
+print(bin_labels)
+xlabel = 'ElapseTime Bin'
+ylabel = 'ElapsedTIme'
+title = (f'Job Count of Elapsed Time gt 30h and ReqCPU {ncpu} [Year: {year}]')
+plot_elapsedtime_vs_cputime_box(selected_rows_copy_gt20, bin_edges, bin_labels, title, xlabel, ylabel)
 
 # PART 1.2: Find the frequency of each Job ReqMem of job Elapsed time gt 24H
 xlabel = 'ReqMem Bin'
