@@ -303,164 +303,183 @@ def plot_elapsedtime_vs_cputime_box(selected_rows_copy, bin_edges, bin_labels, t
 # Data of the Year
 year= 2021
 # Number of CPU 'eq 1' or 'gt 1'
-ncpu= 'eq 1'
+ncpu= 'gt 1'
 
-# Read the data from the file.txt file
-filename = '2022/dt20220101-20221231.txt'
-with open(filename, 'r') as file:
-    data = file.readlines()
+def main():
+    # Read the data from the file.txt file
+    filename = '2021/dt20210101-20211231.txt'
+    with open(filename, 'r') as file:
+        data = file.readlines()
 
-# Split the data into individual columns using the "|" separator
-data = [line.strip().split('|') for line in data]
+    # Split the data into individual columns using the "|" separator
+    data = [line.strip().split('|') for line in data]
 
-# Create a Pandas DataFrame with the column headers and the extracted data
-headers = data[0]  # Assuming the first row contains the column headers
-data = data[1:]  # Remove the header row from the data
-# print(headers)
+    # Create a Pandas DataFrame with the column headers and the extracted data
+    headers = data[0]  # Assuming the first row contains the column headers
+    data = data[1:]  # Remove the header row from the data
+    # print(headers)
 
-# Create the DataFrame
-df = pd.DataFrame(data, columns=headers)
-# print(df)
+    # Create the DataFrame
+    df = pd.DataFrame(data, columns=headers)
+    # print(df)
 
-# Select rows where 'ReqCPUS' is 1 and 'State' is COMPLETED and 'Partition' isn't devel
-selected_rows = df[(df['ReqCPUS'] != '1') & (df['State'] == 'COMPLETED') & (df['Partition'] != "devel")]
+    # Select rows where 'ReqCPUS' is 1 and 'State' is COMPLETED and 'Partition' isn't devel
+    selected_rows = df[(df['ReqCPUS'] != '1') & (df['State'] == 'COMPLETED') & (df['Partition'] != "devel")]
+    # selected_rows = df[(df['ReqCPUS'] != '1') & (df['State'] == 'TIMEOUT') & (df['Partition'] != "devel")]
 
-# Print the selected data
-# print(selected_rows)
+    # Print the selected data
+    print(selected_rows)
 
-# PART 0.1: Find the frequency of each Job in Partition
-xlabel = 'Partition'
-ylabel = 'Job Count'
-title = (f'Job Frequency of Partition of ReqCPU {ncpu} [Year: {year}]')
-# plot_frequency_job_partition(selected_rows, title, xlabel, ylabel)
+    # PART 0.1: Find the frequency of each Job in Partition
+    xlabel = 'Partition'
+    ylabel = 'Job Count'
+    title = (f'Job Frequency of Partition of ReqCPU {ncpu} [Year: {year}]')
+    plot_frequency_job_partition(selected_rows, title, xlabel, ylabel)
 
-# Create a copy of the selected_rows DataFrame
-selected_rows_copy = selected_rows.copy()
+    # Create a copy of the selected_rows DataFrame
+    selected_rows_copy = selected_rows.copy()
 
-# Convert the 'ElapsedTime' column to seconds
-selected_rows_copy['Elapsed']= convert_time_seconds(selected_rows_copy, 'Elapsed')
-# print(selected_rows_copy['Elapsed'])
+    # Convert the 'ElapsedTime' column to seconds
+    selected_rows_copy['Elapsed']= convert_time_seconds(selected_rows_copy, 'Elapsed')
+    # print(selected_rows_copy['Elapsed'])
 
-# Convert the 'CPUTime' column to seconds
-selected_rows_copy['CPUTime']= convert_time_seconds(selected_rows_copy, 'CPUTime')
-# print(selected_rows_copy['CPUTime'])
+    # Convert the 'CPUTime' column to seconds
+    selected_rows_copy['CPUTime']= convert_time_seconds(selected_rows_copy, 'CPUTime')
+    # print(selected_rows_copy['CPUTime'])
 
-# Find the Total CPU Time oer User
-total_cputime_per_user= calculate_cputime_per_user(selected_rows_copy)
+    # Find the Total CPU Time oer User
+    total_cputime_per_user= calculate_cputime_per_user(selected_rows_copy)
 
-# Print the total ElapsedTime for each user
-# print("Total CPUTime per User:")
-# print(total_cputime_per_user)
+    # Print the total ElapsedTime for each user
+    # print("Total CPUTime per User:")
+    # print(total_cputime_per_user)
 
-# Find the Total Elapsed Time oer User
-total_elapsedtime_per_user= calculate_elapsedtime_per_user(selected_rows_copy)
+    # Find the Total Elapsed Time oer User
+    total_elapsedtime_per_user= calculate_elapsedtime_per_user(selected_rows_copy)
 
-# Print the total ElapsedTime for each user
-# print("Total ElapsedTime per User:")
-# print(total_elapsedtime_per_user)
+    # Print the total ElapsedTime for each user
+    # print("Total ElapsedTime per User:")
+    # print(total_elapsedtime_per_user)
 
-# Plot 0.2: Plot total CPUTime and total ElapsedTime for each user using a line/scatter chart
-# plot_elapsedtime_cputime_per_user(selected_rows_copy)
-
-
-# PART 1: Great Then Then 1 Day Elapsed Time Jobs
-# Create a copy of the selected_rows DataFrame
-selected_rows_copy_gt1 = selected_rows_copy.copy()
-
-# Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
-selected_rows_copy_gt1 = selected_rows_copy_gt1[selected_rows_copy_gt1['Elapsed'] > 86400.0]
-
-# Print the DataFrame with the modified 'ReqMem' column
-# print(selected_rows_copy_gt1)
-
-# # PART 1.1: Find the frequency of each Job Elapsed Time of job Elapsed time gt 24H
-# # Define the bin edges for the 'Elapsed' column (up to 30 days)
-# bin_edges = np.arange(0, 30*24*60*60 + 1, 86400)
-# # Define the labels for each bin range
-# bin_labels = [f'{i}-{i+1} days' for i in range(30)]
-# xlabel = 'Time Bin'
-# ylabel = 'Job Count'
-# title = (f'Job Count of Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
-# plot_elapsed_bin_count(selected_rows_copy_gt1, bin_edges, bin_labels, title, xlabel, ylabel)
-
-# Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
-selected_rows_copy_gt20 = selected_rows_copy.copy()
-selected_rows_copy_gt20 = selected_rows_copy_gt20[selected_rows_copy_gt20['Elapsed'] > (86400.0*10.0)]
-print(selected_rows_copy_gt20)
-# Define the bin edges for the 'Elapsed' column (up to 10 days)
-# bin_edges = np.arange(86400*20, 30*24*60*60 + 1, 86400)
-bin_edges = np.append(np.arange(10, 31) * 86400, selected_rows_copy['Elapsed'].max() + 1)
-print(bin_edges)
-# Define the labels for each bin range
-# bin_labels = [f'{i+20}-{i+21} days' for i in range(10)]
-bin_labels = [f'{i+10}-{i+11} days' for i in range(20)] + [f'>30 days']
-print(bin_labels)
-xlabel = 'ElapseTime Bin'
-ylabel = 'ElapsedTIme'
-title = (f'Job Count of Elapsed Time gt 30h and ReqCPU {ncpu} [Year: {year}]')
-plot_elapsedtime_vs_cputime_box(selected_rows_copy_gt20, bin_edges, bin_labels, title, xlabel, ylabel)
-
-# PART 1.2: Find the frequency of each Job ReqMem of job Elapsed time gt 24H
-xlabel = 'ReqMem Bin'
-ylabel = 'Job Count'
-title = (f'Job Count of ReqMem bins Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
-plot_reqmem_bin_count(selected_rows_copy_gt1, title, xlabel, ylabel)
-
-# PART 1.3: Find the frequency of each User of job Elapsed time gt 24H
-xlabel = 'User'
-ylabel = 'Frequency'
-title = (f'User Frequency of Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
-plot_user_frequency(selected_rows_copy_gt1, title, xlabel, ylabel)
-
-# PART 1.4: Find the frequency of each ReqCPUs of job Elapsed time gt 24H
-xlabel= 'ReqCPUs'
-ylabel= 'Frequency'
-title = (f'ReqCPUs Frequency of gt 24h ReqCPU {ncpu} [Year: {year}]')
-plot_reqcpus_frequency(selected_rows_copy_gt1, title, xlabel, ylabel)
+    # Plot 0.2: Plot total CPUTime and total ElapsedTime for each user using a line/scatter chart
+    plot_elapsedtime_cputime_per_user(selected_rows_copy)
 
 
-# PART 2: Less Then 1 Day Elapsed Time Jobs
-# Create a copy of the selected_rows DataFrame
-selected_rows_copy_lt1 = selected_rows_copy.copy()
+    # PART 1: Great Then Then 1 Day Elapsed Time Jobs
+    # Create a copy of the selected_rows DataFrame
+    selected_rows_copy_gt1 = selected_rows_copy.copy()
 
-# # Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
-# selected_rows_copy_lt1 = selected_rows_copy_lt1[selected_rows_copy_lt1['Elapsed'] < 86400.0]
+    # Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
+    selected_rows_copy_gt1 = selected_rows_copy_gt1[selected_rows_copy_gt1['Elapsed'] > 86400.0]
 
-# Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds) and less than equal to 30mim (1800 seconds)
-selected_rows_copy_lt1 = selected_rows_copy_lt1[(selected_rows_copy_lt1['Elapsed'] >= 1800.0) & (selected_rows_copy_lt1['Elapsed'] <= 86400.0)]
+    # Print the DataFrame with the modified 'ReqMem' column
+    # print(selected_rows_copy_gt1)
 
-# Print the DataFrame with the modified 'ReqMem' column
-# print(selected_rows_copy_lt1)
+    # PART 1.1: Find the frequency of each Job Elapsed Time of job Elapsed time gt 24H to 30Days
+    # Define the bin edges for the 'Elapsed' column (up to 30 days)
+    bin_edges = np.arange(0, 30*24*60*60 + 1, 86400)
+    # Define the labels for each bin range
+    bin_labels = [f'{i}-{i+1} days' for i in range(30)]
+    xlabel = 'Time Bin'
+    ylabel = 'Job Count'
+    title = (f'Job Count of Elapsed Time gt 24h - up to 30 days and ReqCPU {ncpu} [Year: {year}]')
+    plot_elapsed_bin_count(selected_rows_copy_gt1, bin_edges, bin_labels, title, xlabel, ylabel)
 
-# PART 2.1: Find the frequency of each Job Elapsed Time of job Elapsed time lt 24H
-# Define the bin edges for the 'Elapsed' column (up to 24H)
-bin_edges = np.arange(0, 24*60*60 + 1, 60*60)
-# Define the labels for each bin range
-bin_labels = [f'{i}-{i+1} H' for i in range(24)]
-xlabel = 'Time Bin'
-ylabel = 'Job Count'
-title = (f'Job Count of Elapsed Time lt 24h and ReqCPU {ncpu} [Year: {year}]')
-plot_elapsed_bin_count(selected_rows_copy_lt1, bin_edges, bin_labels, title, xlabel, ylabel)
+    # PART 1.1.1: Find the frequency of each Job Elapsed Time of job Elapsed time gt 24H to Greater Than 30Days
+    # selected_rows_copy_gt30 = selected_rows_copy.copy()
+    # selected_rows_copy_gt30 = selected_rows_copy_gt30[selected_rows_copy_gt30['Elapsed'] > (86400.0*30.0)]
+    # print(selected_rows_copy_gt30)
+    # Define the bin edges for the 'Elapsed' column (gt 30 days)
+    bin_edges = np.append(np.arange(0, 31) * 86400, selected_rows_copy['Elapsed'].max() + 1)
+    # Define the labels for each bin range
+    bin_labels = [f'{i}-{i+1} days' for i in range(30)] + [f'>30 days']
+    xlabel = 'Time Bin'
+    ylabel = 'Job Count'
+    title = (f'Job Count of Elapsed Time gt 24h a (including >30 days) nd ReqCPU {ncpu} [Year: {year}]')
+    plot_elapsed_bin_count(selected_rows_copy_gt1, bin_edges, bin_labels, title, xlabel, ylabel)
 
-# PART 2.2: Find the frequency of each Job ReqMem of job Elapsed time lt 24H 
-xlabel = 'ReqMem Bin'
-ylabel = 'Job Count'
-title = (f'Job Count of ReqMem bins Elapsed Time lt 24h and ReqCPU {ncpu} [Year: {year}]')
-plot_reqmem_bin_count(selected_rows_copy_lt1, title, xlabel, ylabel)
+    # # Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
+    # selected_rows_copy_gt20 = selected_rows_copy.copy()
+    # selected_rows_copy_gt20 = selected_rows_copy_gt20[selected_rows_copy_gt20['Elapsed'] > (86400.0*10.0)]
+    # # print(selected_rows_copy_gt20)
+    # # Define the bin edges for the 'Elapsed' column (up to 10 days)
+    # # bin_edges = np.arange(86400*10, 30*24*60*60 + 1, 86400)
+    # bin_edges = np.append(np.arange(10, 31) * 86400, selected_rows_copy['Elapsed'].max() + 1)
+    # # print(bin_edges)
+    # # Define the labels for each bin range
+    # # bin_labels = [f'{i+10}-{i+11} days' for i in range(20)]
+    # bin_labels = [f'{i+10}-{i+11} days' for i in range(20)] + [f'>30 days']
+    # # print(bin_labels)
+    # xlabel = 'ElapseTime Bin'
+    # ylabel = 'ElapsedTIme'
+    # title = (f'Job Count of Elapsed Time gt 30h and ReqCPU {ncpu} [Year: {year}]')
+    # plot_elapsedtime_vs_cputime_box(selected_rows_copy_gt20, bin_edges, bin_labels, title, xlabel, ylabel)
 
-# PART 2.3: Find the frequency of each User of job Elapsed time lt 24H
-xlabel = 'User'
-ylabel = 'Frequency'
-title = (f'User Frequency of Elapsed Time lt 24h and ReqCPU {ncpu} [Year: {year}]')
-plot_user_frequency(selected_rows_copy_lt1, title, xlabel, ylabel)
+    # PART 1.2: Find the frequency of each Job ReqMem of job Elapsed time gt 24H
+    xlabel = 'ReqMem Bin'
+    ylabel = 'Job Count'
+    title = (f'Job Count of ReqMem bins Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
+    plot_reqmem_bin_count(selected_rows_copy_gt1, title, xlabel, ylabel)
 
-# PART 2.4: Find the frequency of each ReqCPUs of job Elapsed time lt 24H
-xlabel= 'ReqCPUs'
-ylabel= 'Frequency'
-title = (f'ReqCPUs Frequency of lt 24h ReqCPU {ncpu} [Year: {year}]')
-plot_reqcpus_frequency(selected_rows_copy_lt1, title, xlabel, ylabel)
+    # PART 1.3: Find the frequency of each User of job Elapsed time gt 24H
+    xlabel = 'User'
+    ylabel = 'Frequency'
+    title = (f'User Frequency of Elapsed Time gt 24h and ReqCPU {ncpu} [Year: {year}]')
+    plot_user_frequency(selected_rows_copy_gt1, title, xlabel, ylabel)
+
+    # PART 1.4: Find the frequency of each ReqCPUs of job Elapsed time gt 24H
+    xlabel= 'ReqCPUs'
+    ylabel= 'Frequency'
+    title = (f'ReqCPUs Frequency of gt 24h ReqCPU {ncpu} [Year: {year}]')
+    plot_reqcpus_frequency(selected_rows_copy_gt1, title, xlabel, ylabel)
 
 
-# # Find the largest value in the 'ElapsedTimeInSeconds' column
-# largest_value = df['ElapsedTimeInSeconds'].max()
-# print("Largest value in ElapsedTimeInSeconds column:", largest_value)
+    # PART 2: Less Then 1 Day Elapsed Time Jobs
+    # Create a copy of the selected_rows DataFrame
+    selected_rows_copy_lt1 = selected_rows_copy.copy()
+
+    # # Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds)
+    # selected_rows_copy_lt1 = selected_rows_copy_lt1[selected_rows_copy_lt1['Elapsed'] < 86400.0]
+
+    # Filter rows where the 'Elapsed' column is greater than or equal to 1 day (86400 seconds) and less than equal to 30mim (1800 seconds)
+    selected_rows_copy_lt1 = selected_rows_copy_lt1[(selected_rows_copy_lt1['Elapsed'] >= 1800.0) & (selected_rows_copy_lt1['Elapsed'] <= 86400.0)]
+
+    # Print the DataFrame with the modified 'ReqMem' column
+    # print(selected_rows_copy_lt1)
+
+    # PART 2.1: Find the frequency of each Job Elapsed Time of job Elapsed time lt 24h
+    # Define the bin edges for the 'Elapsed' column (up to 24h)
+    bin_edges = np.arange(0, 24*60*60 + 1, 60*60)
+    # Define the labels for each bin range
+    bin_labels = [f'{i}-{i+1} H' for i in range(24)]
+    xlabel = 'Time Bin'
+    ylabel = 'Job Count'
+    title = (f'Job Count of Elapsed Time lt 24h and ReqCPU {ncpu} [Year: {year}]')
+    plot_elapsed_bin_count(selected_rows_copy_lt1, bin_edges, bin_labels, title, xlabel, ylabel)
+
+
+    # PART 2.2: Find the frequency of each Job ReqMem of job Elapsed time lt 24H 
+    xlabel = 'ReqMem Bin'
+    ylabel = 'Job Count'
+    title = (f'Job Count of ReqMem bins Elapsed Time lt 24h and ReqCPU {ncpu} [Year: {year}]')
+    plot_reqmem_bin_count(selected_rows_copy_lt1, title, xlabel, ylabel)
+
+    # PART 2.3: Find the frequency of each User of job Elapsed time lt 24H
+    xlabel = 'User'
+    ylabel = 'Frequency'
+    title = (f'User Frequency of Elapsed Time lt 24h and ReqCPU {ncpu} [Year: {year}]')
+    plot_user_frequency(selected_rows_copy_lt1, title, xlabel, ylabel)
+
+    # PART 2.4: Find the frequency of each ReqCPUs of job Elapsed time lt 24H
+    xlabel= 'ReqCPUs'
+    ylabel= 'Frequency'
+    title = (f'ReqCPUs Frequency of lt 24h ReqCPU {ncpu} [Year: {year}]')
+    plot_reqcpus_frequency(selected_rows_copy_lt1, title, xlabel, ylabel)
+
+
+    # # Find the largest value in the 'ElapsedTimeInSeconds' column
+    # largest_value = df['ElapsedTimeInSeconds'].max()
+    # print("Largest value in ElapsedTimeInSeconds column:", largest_value)
+
+if __name__ == "__main__":
+    main()
