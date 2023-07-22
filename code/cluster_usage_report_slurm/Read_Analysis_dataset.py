@@ -298,8 +298,6 @@ def plot_elapsedtime_vs_cputime_box(selected_rows_copy, bin_edges, bin_labels, t
     plt.show()
 
 
-
-# START
 # Data of the Year
 year= 2021
 # Number of CPU 'eq 1' or 'gt 1'
