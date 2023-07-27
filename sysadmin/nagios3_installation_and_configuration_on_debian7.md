@@ -1,12 +1,16 @@
-=== NagiOS3 installation and configuration ===
-install NagiOS3:
-    apt-get instal nagios
-NOTE: *give a stronge passwd
+# NagiOS3 installation and configuration
+## install NagiOS3:
+````
+apt-get instal nagios
+````
+NOTE: *give a strong password
 
-configure NagiOS3 to monitor resources:
-create 'cluster-nagios.cfg' file and resource properties:
-    nano /etc/nagios3/conf.d/cluster-nagios.cfg 
-    #Add all node details as following format:
+## Configure NagiOS3 to monitor resources:
+create "cluster-nagios.cfg" file and resource properties:
+````
+nano /etc/nagios3/conf.d/cluster-nagios.cfg 
+
+#Add all node details in the following format:
     define host {
             host_name   HOSTNAME
             alias       ALIAS
@@ -14,12 +18,16 @@ create 'cluster-nagios.cfg' file and resource properties:
             use         generic-host
             _ipmi_ip    IPMI IP
     }
-edit/modife 'contacts_nagios2.cfg' to get alert messages:
-    nano /etc/nagios3/conf.d/contacts_nagios2.cfg
+````
+## Edit 'contacts_nagios2.cfg' to get alert messages:
+````
+nano /etc/nagios3/conf.d/contacts_nagios2.cfg
     email    <<your email id>>
+````
 
-edit/modife 'hostgroups_nagios2.cfg' to add all host those you want to monitor using NagiOS:
-    nano /etc/nagios3/conf.d/hostgroups_nagios2.cfg
+## Edit 'hostgroups_nagios2.cfg' to add all hosts you want to monitor using NagiOS:
+````
+nano /etc/nagios3/conf.d/hostgroups_nagios2.cfg
     # A list of your Master servers
     define hostgroup {
         hostgroup_name  Master-nodes
@@ -68,6 +76,9 @@ edit/modife 'hostgroups_nagios2.cfg' to add all host those you want to monitor u
                 alias           SSH servers
                 members         server1,server2
         }
+````
 
-restart NagiOS service:
-    /etc/init.d/nagios3 restart
+## Restart NagiOS service:
+````
+/etc/init.d/nagios3 restart
+````
