@@ -16,6 +16,7 @@ nano /etc/nagios3/conf.d/cluster-nagios.cfg
             alias       ALIAS
             address     IP
             use         generic-host
+            check_command    
             _ipmi_ip    IPMI IP
     }
 ````
