@@ -124,8 +124,8 @@ def plot_user_frequency(selected_rows_copy, title, xlabel, ylabel):
     user_frequency = user_frequency.sort_index()
 
     # # Print the user frequency
-    # print("User Frequency:")
-    # print(user_frequency)
+    print("User Frequency:")
+    print(user_frequency)
 
     # Set the Seaborn style to include gridlines
     sns.set_style('whitegrid')
