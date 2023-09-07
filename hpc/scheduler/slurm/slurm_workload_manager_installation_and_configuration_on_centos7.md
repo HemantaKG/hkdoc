@@ -25,7 +25,7 @@ yum install munge munge-libs munge-devel -y
 ````
 NOTE: **EPEL repository** required if it is not available
 
-#### Create Munge secret key on control/server node
+#### Create Munge secret key on master node
 After installing Munge, you need to "generate/create a secret key on the server node (i.e. here mgn)" and copy it to all other nodes
 ````
 yum install rng-tools -y
@@ -89,7 +89,7 @@ yum install openssl openssl-devel pam-devel numactl numactl-devel hwloc hwloc-de
 ````
 
 ## Download and build Slurm rpms
-Install "mariadb-server" and "mariadb-devel" on "master server" (or wherever you are building rmps); before running "rpmbuild" to generate slurm rmp packages
+Install "mariadb-server" and "mariadb-devel" on "master server" (or wherever you are building rmps); before running "rpmbuild" to generate the Slurm rmp packages
 ````
 yum install mariadb-server mariadb-devel -y
 ````
