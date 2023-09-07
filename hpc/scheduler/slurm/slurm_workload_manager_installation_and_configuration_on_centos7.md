@@ -6,9 +6,9 @@ Compute nodes
   - hostname n1, n2
   - ip: 10.0.10.1, 10.0.10.2
 
-## Prerequisite installations and configuration need to do over all nodes of the cluster
+## Prerequisite installations and configuration need to be done over all nodes of the cluster
 ### Add user for Slurm and Munge
-Slurm and Munge require same UID and GID across every node in the cluster. So do following on all the nodes including master nodes, before you install Slurm or Munge
+Slurm and Munge require the same UID and GID across every node in the cluster. So do follow all the nodes including master nodes, before you install Slurm or Munge
 ````
 groupadd -g 981 munge
 useradd  -m -c "MUNGE Uid 'N' Gid Emporium" -d /var/lib/munge -u 981 -g munge  -s /sbin/nologin munge
@@ -26,7 +26,7 @@ yum install munge munge-libs munge-devel -y
 NOTE: **EPEL repository** required if it is not available
 
 #### Create Munge secret key on control/server node
-After installing Munge, you need to "generate/create a secret key on the server node (i.e here mgn)" and copy to all other nodes
+After installing Munge, you need to "generate/create a secret key on the server node (i.e. here mgn)" and copy it to all other nodes
 ````
 yum install rng-tools -y
 rngd -r /dev/urandom
@@ -37,10 +37,10 @@ dd if=/dev/urandom bs=1 count=1024 > /etc/munge/munge.key
 ````
 NOTE:
 - Install **rng-tools** to properly create the key
-- You only have to do the creation of the secret key on the server (i.e here mgn)
+- You only have to do the creation of the secret key on the server (i.e. here mgn)
 
 #### Copy Munge secret key to all compute nodes
-After the secret key is created, you need to copy the key to all of the compute nodes (i.e here n1, n2)
+After the secret key is created, you need to copy the key to all of the compute nodes (i.e. here n1, n2)
 ````
 scp /etc/munge/munge.key root@n1:/etc/munge
 scp /etc/munge/munge.key root@n2:/etc/munge
@@ -64,7 +64,7 @@ systemctl start munge
 ````
 
 #### Test Munge
-NOTE: successful execution of all the below test is required to processed further
+NOTE: successful execution of all the below tests is required to be processed further
 ````
 munge -n
 munge -n | unmunge
@@ -83,19 +83,19 @@ systemctl start ntpd
 ````
 
 ## Install Slurm dependencies
-Slurm has a few dependencies that we need to install upon all nodes
+Slurm has a few dependencies that we need to install on all nodes
 ````
 yum install openssl openssl-devel pam-devel numactl numactl-devel hwloc hwloc-devel lua lua-devel readline-devel rrdtool-devel ncurses-devel man2html libibmad libibumad perl-devel -y
 ````
 
 ## Download and build Slurm rpms
-Install "mariadb-server" and "mariadb-devel" on "master server" (or where ever your building rmps); before running "rpmbuild" to generate slurm rmp packages
+Install "mariadb-server" and "mariadb-devel" on "master server" (or wherever you are building rmps); before running "rpmbuild" to generate slurm rmp packages
 ````
 yum install mariadb-server mariadb-devel -y
 ````
 
 - Download the [[https://www.schedmd.com/downloads.php|latest version of Slurm]] preferably in our shared folder
-- Build the **rmps** from above downloaded **slurm-xx.xx.xx.dz2** file using ''**rpmbuild**'' command. **NOTE:** If rpmbuild not available install rpm-build package ''yum install rpm-build''. Sometimes the rpmbuild fails if required development tools are not available (such as; gcc compiler) then, install development tools packages ''yum group install "Development Tools"''
+- Build the **rmps** from above downloaded **slurm-xx.xx.xx.dz2** file using ''**rpmbuild**'' command. **NOTE:** If rpmbuild not available install rpm-build package ''yum install rpm-build''. Sometimes the rpmbuild fails if required development tools are not available (such as; gcc compiler) Then, install development tools packages ''yum group install "Development Tools"''
 - All rpms file will be available under **/root/rpmbuild/RPMS/x86_64/** if your building as a root user
 - Move into the **/root/rpmbuild/RPMS/x86_64/** and Copy all the Slurm rpms to some other folder. **NOTE:** copy into some shared directory (NFS mounted directory) it is easy for installation on all compute nodes
 ````
@@ -119,16 +119,16 @@ cd /home/it/slurm_rpm
 yum --nogpgcheck localinstall slurm-*
 ````
 
-## Genarate and configure Slurm configuration file
-Slurm workload manager resource allocation methods: for more details please check "Consumable Resources in Slurm"
+## Generate and configure the Slurm configuration file
+Slurm workload manager resource allocation methods: For more details please check "Consumable Resources in Slurm"
 - node allocation plug-in ''linear''. its default
 - consumable resource plug-in ''cons_res''
 ### Generate Slurm configuration file
 - Visit [[http://slurm.schedmd.com/configurator.easy.html|page]] to generate/make a configuration file for Slurm
 - Change and modifications the properties as per your requirements 
    - I made only the following changes and left everything default
-- Press submit button to generate full **Slurm configuration file**
-- Copy Slurm configuration file that was created from the website and paste it into **slurm.conf**
+- Press the submit button to generate the full **Slurm configuration file**
+- Copy the Slurm configuration file that was created from the website and paste it into **slurm.conf**
 - Keep the **slurm.conf** file under **/etc/slurm/** folder [[Slurm Configuration file|Mario]], [[Slurm Configuration file test_cluster|test_cluster]]
 
 ````
@@ -147,22 +147,22 @@ nano slurm.conf
 ````
 
 ## Add all compute nodes in slurm.conf file
-- By default Slurm tries to determine the IP addresses automatically with the one line i.e **''NodeName=buhpc[1-6] CPUs = 4 State = UNKNOWN''**
-- If your node doesn't have IP addresses in order, then you need to manually delete/comment the above one line and add following lines in **# COMPUTE NODES** block of **slurm.conf** file
+- By default, Slurm tries to determine the IP addresses automatically with one line i.e. **''NodeName=buhpc[1-6] CPUs = 4 State = UNKNOWN''**
+- If your node doesn't have IP addresses in order, then you need to manually delete/comment the above one line and add the following lines in **# COMPUTE NODES** block of **slurm.conf** file
 ````
 #NodeName=n[1-2] CPUs=2 State=UNKNOWN
 NodeName=n1 NodeAddr=10.0.10.1 CPUs=2 State=UNKNOWN
 NodeName=n2 NodeAddr=10.0.10.2 CPUs=2 State=UNKNOWN
 ````
 
-## Copy the slurm.conf file from master node to all compute nodes
+## Copy the slurm.conf file from the master node to all compute nodes
 ````
 scp slurm.conf root@n1:/etc/slurm/slurm.conf
 scp slurm.conf root@n2:/etc/slurm/slurm.conf
 ````
 
 ## Configure controller/master node
-Do the following change and modification on server node
+Do the following changes and modification on the server node
 ````
 mkdir /var/spool/slurmctld
 chown slurm: /var/spool/slurmctld
@@ -188,7 +188,7 @@ chown slurm: /var/log/slurm/slurmd.log
 ````
 
 ## Firewall setting
-Firewall will block connections between nodes, so I normally disable the firewall on the compute nodes except controller/server node (i.e mgn)
+The firewall will block connections between nodes, so I normally disable the firewall on the compute nodes except the controller/server node (i.e. mgn)
 ````
 systemctl stop firewalld
 systemctl disable firewalld
@@ -230,8 +230,8 @@ systemctl start slurmctld.service
 systemctl status slurmctld.service
 ````
 
-## Some usefull Slurm commands
-The following some useful Slurm commands to get details information about node, jod and Slurm envirolment variables 
+## Some useful Slurm commands
+The following are some useful Slurm commands to get details information about node, job and Slurm environment variables 
 - Display all nodes ''**scontrol show nodes**''
 - Display the job queue ''**scontrol show jobs**''
 - List all Slurm evn variables ''**scontrol show config**''
@@ -256,7 +256,7 @@ less /var/log/slurmd.log
 [2017-10-26T20:07:14.996] error: cannot create proctrack context for proctrack/cgroup
 [2017-10-26T20:07:14.996] error: slurmd initialization failed
 ````
-**[[https://bugs.schedmd.com/show_bug.cgi?id=3701|RESOLVE]]:** It is mentatory to modify these two files **cgroup.conf** and **cgroup_allowed_devices_file.conf** over all compute nodes to start **slurmd** service successfully
+**[[https://bugs.schedmd.com/show_bug.cgi?id=3701|RESOLVE]]:** It is mandatory to modify these two files **cgroup.conf** and **cgroup_allowed_devices_file.conf** overall compute nodes to start **slurmd** service successfully
 - Modify the **/etc/slurm/cgroup.conf** file
 - Modify the **/etc/slurm/cgroup_allowed_devices_file.conf** file
 ````
