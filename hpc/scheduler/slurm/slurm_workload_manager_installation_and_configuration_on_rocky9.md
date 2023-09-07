@@ -24,7 +24,7 @@ dnf --enablerepo=crb install munge munge-libs munge-devel
 ````
 NOTE: **EPEL repository** required if it is not available
 
-#### Create Munge secret key on control/server node
+#### Create Munge secret key on master node
 After installing Munge, you need to "generate/create a secret key on the server node (i.e. here mgn)" and copy it to all other nodes
 ````
 yum install rng-tools -y
@@ -72,9 +72,9 @@ munge -n | ssh n2 unmunge
 remunge
 ````
 
-
 ## Install dependency packages on all nodes
+Slurm has a few dependencies that we need to install on all nodes
 ````
-
+dnf install openssl openssl-devel pam-devel numactl numactl-devel hwloc hwloc-devel readline-devel ncurses-devel man2html libibmad libibumad perl-devel -y
 dnf --enablerepo=crb install pmix-pmi-devel rrdtool-devel lua-devel
 ````
