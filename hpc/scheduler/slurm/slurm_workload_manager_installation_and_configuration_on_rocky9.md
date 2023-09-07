@@ -16,6 +16,13 @@ groupadd -g 972 slurm
 useradd  -m -c "SLURM workload manager" -d /var/lib/slurm -u 972 -g slurm  -s /bin/bash slurm
 ````
 
+### Install and configure Munge
+#### Install Munge
+Do following on all the nodes including master nodes
+````
+dnf --enablerepo=crb install munge munge-libs munge-devel
+````
+
 ## Install dependency packages on all nodes
 ````
 
