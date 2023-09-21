@@ -1,9 +1,9 @@
 # Packate forwarding
-* First flash all ''iptable'' settings before ''netting''
+### First flash all ''iptable'' settings before ''netting''
 ````
 iptables -F
 ````
-* Now run below commands for ''netting''
+### Now run the below commands for ''netting''
 NOTE: Public interface ''enp0s29u1u6'' and Local interface ''enp3s0''
 ````
 iptables -t nat -A POSTROUTING -o enp0s29u1u6 -j MASQUERADE
@@ -11,15 +11,21 @@ iptables -A FORWARD -i enp3s0 -j ACCEPT
 ````
 NOTE:
 * ''/etc/resolve.conf'' and ''GATEWAY'' was definded but still node not getting internet and ''ping 8.8.8.8'' not pinging, than do ''iptable'' flash and rerun the ''netting''
-* on CentOS system please check ''/etc/sysctl.conf'' file:
+
+### Enable forwarding on CentOS\Rocky:
+Add the following to bottom of the file ''/etc/sysctl.conf''
 ````
-nano /etc/sysctl.conf
 net.ipv4.ip_forward=1
 ````
-* List iptable settings
+### Run the following to make the changes
+````
+sysctl -p
+````
+### List iptable settings
 ````
 iptables -L
 ````
+Ref: https://linuxconfig.org/how-to-turn-on-off-ip-forwarding-in-linux
 ----
 
 # Configuring static IP
