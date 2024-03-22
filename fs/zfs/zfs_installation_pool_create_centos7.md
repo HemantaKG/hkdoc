@@ -1,4 +1,4 @@
-# Installtion of 'zfs' filesysytem on CentOS
+# Installtion of 'zfs' filesystem on CentOS
 
 Install epel-release, Update OS
 ```bash
@@ -34,7 +34,7 @@ Note: After installing the zfs-release package and verifying the public key user
 - [kABI-tracking kmod packages](http://elrepoproject.blogspot.in/2016/02/kabi-tracking-kmod-packages.html) are recommended in order to avoid needing to rebuild ZFS for every kernel update
 - [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) packages are recommended for users running a non-distribution kernel or for users who wish to apply local customizations to ZFS on Linux
 
-# Install by kABI-tracking kmod (Method 1)
+# Install by kABI-tracking kmod (Method 1)*
 By default, the zfs-release package is configured to install DKMS style packages so they will work with a wide range of kernels. In order to install the kABI-tracking kmods the default repository in the /etc/yum.repos.d/zfs.repo file must be switch from zfs to zfs-kmod. Keep in mind that the kABI-tracking kmods are only verified to work with the distribution provided kernel.
 
 ```bash
