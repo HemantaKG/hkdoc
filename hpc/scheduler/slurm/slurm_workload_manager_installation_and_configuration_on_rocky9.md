@@ -76,5 +76,6 @@ remunge
 Slurm has a few dependencies that we need to install on all nodes
 ````
 dnf install openssl openssl-devel pam-devel numactl numactl-devel hwloc hwloc-devel readline-devel ncurses-devel man2html libibmad libibumad perl-devel -y
-dnf --enablerepo=crb install pmix-pmi-devel rrdtool-devel lua-devel
+dnf --enablerepo=crb install pmix-pmi-devel rrdtool-devel lua-devel perl-Switch
+dnf remove pmix-pmi-devel -y
 ````
