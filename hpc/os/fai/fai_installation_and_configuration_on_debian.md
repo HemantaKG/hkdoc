@@ -1,5 +1,5 @@
 ## Steps for FAI configuration
-Ref:[[https://fai-project.org/fai-guide/|FAI Guide]]
+Ref: https://fai-project.org/fai-guide/
 - Install FAI packages
 - Create the ''nfsroot''
 - Copy the Examples to the config space and set up your requirements by modifying the required files
