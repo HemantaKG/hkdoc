@@ -1,31 +1,35 @@
-===== Need to follow these following steps for FAI configuration =====
+## Steps for FAI configuration
 Ref:[[https://fai-project.org/fai-guide/|FAI Guide]]
-  * Install FAI packages
-  * Create the ''nfsroot''
-  * Copy the Examples to the config space and set up your requirements by modifying required files
-  * Configure network daemons ''DHCP'' and ''TFTP''
-  * Building local repository/mirror
-  * Install system using FAI server
-  * Troubleshooting and Reference
-===== Install FAI packages =====
-  * Install the key of the FAI project package repository
-  * Add the URL of the package repository of the FAI project
-  * Install the package "fai-quickstart" on your install server.
-<code>
+- Install FAI packages
+- Create the ''nfsroot''
+- Copy the Examples to the config space and set up your requirements by modifying the required files
+- Configure network daemons ''DHCP'' and ''TFTP''
+- Building local repository/mirror
+- Install the system using FAI server
+- Troubleshooting and Reference
+
+## Install FAI packages
+- Install the key of the FAI project package repository
+- Add the URL of the package repository of the FAI project
+- Install the package "fai-quickstart" on your install server.
+
+````
 wget -O - http://fai-project.org/download/074BCDE4.asc | apt-key add -
 echo "deb http://fai-project.org/download jessie koeln" > /etc/apt/sources.list.d/fai.list
 apt-get update
 aptitude install fai-quickstart
-</code>
-===== Building basic FAI platform for OS provisioning =====
-==== Create the ''nfsroot'' ====
-  * Enable the package repository of the FAI project in a different ''sources.list'' file which is used when building the ''nfsroot''. That ''source.list'' located at ''/etc/fai/apt/sources.list''. Edit ''/etc/fai/apt/sources.list'' to keep the required ''repo'' and ''mirror'' urls.
-  * Edit ''/etc/fai/fai.conf'' and enable the ''log'' keeping properties for FAI installation. Log helps track the installtation fail and other error
-  * Edit ''/etc/fai/nfsroot.conf'' to set required ''Debian version'' to install, ''root passwd'', path to ''nfsroot'' and other things
-  * Create a empty ''nfs4'' named folder under ''/srv'' and edit ''/etc/exports'' file
-  * Run ''fai-setup'' to build the NFSROOT with base packages
-==== Edit "/etc/fai/apt/sources.list" ====
-<code>
+````
+
+## Building a basic FAI platform for OS provisioning
+### Create the ''nfsroot''
+- Enable the package repository of the FAI project in a different ''sources.list'' file which is used when building the ''nfsroot''. That ''source.list'' located at **/etc/fai/apt/sources.list**. Edit **/etc/fai/apt/sources.list** to keep the required **repo** and **mirror** urls.
+- Edit ''/etc/fai/fai.conf'' and enable the ''log'' keeping properties for FAI installation. Log helps track the installtation fail and other error
+- Edit ''/etc/fai/nfsroot.conf'' to set required ''Debian version'' to install, ''root passwd'', path to ''nfsroot'' and other things
+- Create a empty ''nfs4'' named folder under ''/srv'' and edit ''/etc/exports'' file
+- Run ''fai-setup'' to build the NFSROOT with base packages
+
+## Edit "/etc/fai/apt/sources.list"
+````
 deb http://http.debian.net/debian jessie main contrib non-free
 deb http://security.debian.org/debian-security jessie/updates main contrib non-free
 # repository that may contain newer fai packages for jessie
@@ -51,9 +55,10 @@ deb http://ftp.us.debian.org/debian/ jessie-backports non-free
 deb http://ftp.us.debian.org/debian/ jessie-updates contrib
 deb http://ftp.us.debian.org/debian/ jessie-updates main
 deb http://ftp.us.debian.org/debian/ jessie-updates non-free
-</code>
-==== Edit "/ect/fai/fai.conf" ====
-<code>
+````
+
+## Edit "/ect/fai/fai.conf"
+````
 # See fai.conf(5) for detailed information.
 # Account for saving log files and calling fai-chboot.
 LOGUSER=fai
@@ -67,10 +72,11 @@ FAI_CONFIG_SRC=nfs://storage02/srv/fai/config
 # FAI server
 LOGSERVER=$SERVER
 FAI_LOGPROTO=ssh
-</code>
-**NOTE:** change the ''yourservername'' to your server name
-==== Edit "/etc/fai/nfsroot.conf" ====
-<code>
+````
+NOTE: change the ''yourservername'' to your server name
+
+## Edit "/etc/fai/nfsroot.conf"
+````
 For a detailed description see nfsroot.conf(5)
 # "<suite> <mirror>" for debootstrap
 FAI_DEBOOTSTRAP="wheezy http://httpredir.debian.org/debian"
@@ -81,22 +87,21 @@ NFSROOT_HOOKS=/etc/fai/nfsroot-hooks/
 FAI_DEBOOTSTRAP_OPTS="--exclude=info"
 # Configuration space
 FAI_CONFIGDIR=/srv/fai/config
-</code>
-**NOTE:** default root passwd //fai//, change 
+````
+NOTE: default root passwd //fai//, change 
 
-==== Create an empty "nfs4" directory ====
+## Create an empty "nfs4" directory
 create an empty **nfs4** directory under **/srv**. Add the direcory info to **/etc/export** file for //NFS// mount
-<code>
+````
 mkdir /srv/nfs4
-</code>
-<code>
 nano /etc/exports
 /srv/nfs4 fsid=0
-</code>
-==== Build the NFSROOT with base packages ====
-<code>
+````
+
+## Build the NFSROOT with base packages
+````
 fai-setup -v
-</code>
+````
 You will get the following block of message, if ''fai-setup'' and ''nfsroot'' build are finish's successfully :-)
 >   You have no FAI configuration space yet. Copy the simple examples with:
 >   cp -a /usr/share/doc/fai-doc/examples/simple/* /srv/fai/config
@@ -104,25 +109,28 @@ You will get the following block of message, if ''fai-setup'' and ''nfsroot'' bu
 > Please don't forget to fill out the FAI questionnaire after you've finished your project with FAI.
 >
 >FAI setup finished.
-===== Building FAI platform with requirements =====
-Processed futher iff the basic FAI platform build compliated sucessfully 8-o
-==== Copy sample cofiguration ====
-As prompeted by ''fai-setup'' run, copy the sample configurations to your fai build directory as follow
-<code>
+
+## Building FAI platform with requirements
+Processed further if the basic FAI platform build complicated successfully 8-o
+### Copy sample configuration
+As prompted by ''fai-setup'' run, copy the sample configurations to your fai build directory as follows
+````
 cp -a /usr/share/doc/fai-doc/examples/simple/* /srv/fai/config
-</code>
-==== Setup OS provisioning requirements ====
-=== set timezone ===
+````
+
+### Setup OS provisioning requirements
+#### set timezone
 set **timezone**, **root-pw** for the new OS installation in file **/srv/fai/config/class/FAIBASE.var**
-<code>
+````
 #timezone
 
 UTC=no
 TIMEZONE=Asia/Kolkata
-</code>
-=== partition HD disk ===
+````
+
+#### partition HDD
 Add the HD disk partition details to ''/srv/fai/config/disk_config/FAIBASE'' file
-<code>
+````
 root@storage02:~# nano /srv/fai/config/disk_config/FAIBASE
 
 # example of new config file for setup-storage
@@ -153,45 +161,52 @@ logical        /scratch        619G    ext4    rw,noatime,errors=remount-ro
 #primary        /boot           500     ext4    rw,noatime
 #primary        /               200G    ext4    rw,noatime,errors=remount-ro
 #logical        swap            64G     swap    sw
-</code>
-==== Packages needed on new installation ====
+````
+
+#### Packages needed on new installation
 Create a file with the list of all the **package names** under ''/srv/fai/config/package_config/'' directory. The filename must be in **block letters**. //NOTE:// to avoide confusion, it is better to give the filename same as the package name (or) package group type name. The following file we created for our requirement
-  * /srv/fai/config/package_config/GANGLIA_MASTER
-  * /srv/fai/config/package_config/GANGLIA_NODE
-  * /srv/fai/config/package_config/CONDOR_MASTER
-  * /srv/fai/config/package_config/CONDOR_NODE
-  * /srv/fai/config/package_config/LIGO_PACK
-  * /srv/fai/config/package_config/GNOME
-  * /srv/fai/config/package_config/NIS
-  * /srv/fai/config/package_config/MISC
-<code>
+- /srv/fai/config/package_config/GANGLIA_MASTER
+- /srv/fai/config/package_config/GANGLIA_NODE
+- /srv/fai/config/package_config/CONDOR_MASTER
+- /srv/fai/config/package_config/CONDOR_NODE
+- /srv/fai/config/package_config/LIGO_PACK
+- /srv/fai/config/package_config/GNOME
+- /srv/fai/config/package_config/NIS
+- /srv/fai/config/package_config/MISC
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/GANGLIA_MASTER
 PACKAGES aptitude
 ganglia-monitor
 rrdtool gmetad
 ganglia-webfrontend
-</code>
-<code>
+````
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/GANGLIA_NODE 
 PACKAGES aptitude
 ganglia-monitor
-</code>
-<code>
+````
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/CONDOR_MASTER 
 PACKAGES aptitude
 condor
-</code>
-<code>
+````
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/CONDOR_NODE 
 PACKAGES aptitude
 condor
-</code>
-<code>
+````
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/NIS 
 PACKAGES aptitude
 nis
-</code>
-<code>
+````
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/LIGO_PACK 
 PACKAGES aptitude
 lsb-release
@@ -201,8 +216,9 @@ ldg-server
 lscsoft-lalsuite-dev
 lscsoft-external
 lscsoft-all
-</code>
-<code>
+````
+
+````
 root@storage02:~# cat /srv/fai/config/package_config/MISC 
 PACKAGES aptitude
 #General pack
@@ -228,11 +244,13 @@ astropy
 #Exter LaTex Fonts
 texlive-latex-extra
 texlive-fonts-recommended
-</code>
-==== Configure all packages for new installation ====
+````
+
+### Configure all packages for new installation
 Put the package configuration files under ''/srv/fai/config/files/etc/<package_name>'' directory.
-  * create folder **condor** under ''/srv/fai/config/files/etc/'' and keep **condor configuration files** under ''/srv/fai/config/files/etc/condor/''
-<code>
+- create folder **condor** under ''/srv/fai/config/files/etc/'' and keep **condor configuration files** under ''/srv/fai/config/files/etc/condor/''
+
+````
 root@storage02:~# ls -l /srv/fai/config/files/etc/condor/
 -rw-r--r-- 1 storage02 storage02   1040 Dec 20 00:15 condor_config_local_manager
 --rw-r--r-- 1 root      root        1029 Dec 19 23:51 condor_config_local_node
@@ -240,29 +258,30 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/condor/
 --rw-r--r-- 1 storage02 storage02 111359 Dec 20 00:19 condor_config_manager
 --rw-r--r-- 1 storage02 storage02 111395 Dec 19 23:59 condor_config_node
 --rw-r--r-- 1 storage02 storage02 111381 Dec 20 00:13 condor_config_submit
-</code>
-  * Create a folder **ganglia** under ''/srv/fai/config/files/etc/'' keep **ganglia configuration files** under ''/srv/fai/config/files/etc/ganglia/''
-<code>
+````
+- Create a folder **ganglia** under ''/srv/fai/config/files/etc/'' keep **ganglia configuration files** under ''/srv/fai/config/files/etc/ganglia/''
+````
 root@storage02:~# ls -l /srv/fai/config/files/etc/ganglia/
 -rw-r--r-- 1 storage02 storage02 7948 Nov  4  2016 gmetad.conf.master
 --rw-r--r-- 1 storage02 storage02 8080 Nov  4  2016 gmond.conf.master
 --rw-r--r-- 1 root      root      8066 Dec 20 00:21 gmond.conf.node
-</code>
-  * Create a floder **apache** under ''/srv/fai/config/files/etc/'' and keep **apache configuration files** under ''/srv/fai/config/files/etc/apache2/''
-<code>
+````
+- Create a floder **apache** under ''/srv/fai/config/files/etc/'' and keep **apache configuration files** under ''/srv/fai/config/files/etc/apache2/''
+````
 root@storage02:~# ls -l /srv/fai/config/files/etc/apache2/
 drwxr-xr-x 2 root root 4096 Nov  4  2016 sites-enabled
-</code>
-  * keep **hosts file** user ''/srv/fai/config/files/etc/hosts/''
-<code>
+````
+- keep **hosts file** user ''/srv/fai/config/files/etc/hosts/''
+````
 root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
 -rw-r--r-- 1 root root 2271 Dec 20 12:14 DEBIAN
-</code>
-**NOTE:** Here **DEBIAN** is a class, this file contains the **/etc/hosts** file details.
-==== Add shell script files to perform some required default configurations setting at the final stage to FAI and change access mode to "-rwxr-xr-x" ====
-=== Add script file under ''/srv/fai/config/scrip/LAST/'' ===
-  * 90-ganglia-conf
+````
+NOTE: Here **DEBIAN** is a class, this file contains the **/etc/hosts** file details.
 
+### Add shell script files to perform some required default configurations setting at the final stage to FAI and change access mode to "-rwxr-xr-x"
+#### Add script file under ''/srv/fai/config/scrip/LAST/''
+Filename: 90-ganglia-conf
+````
     root@storage02:~# cat /srv/fai/config/scripts/LAST/90-ganglia-conf 
     #! /bin/bash
     
@@ -275,9 +294,9 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
                     cp -aurf /var/lib/fai/config/files/etc/ganglia/gmond.conf.master /target/etc/ganglia/gmond.conf;
                     cp -aurf /var/lib/fai/config/files/etc/ganglia/gmetad.conf.master /target/etc/ganglia/gmetad.conf; ;;
     esac
-
-  * 91-condor-conf
-
+````
+Filename: 91-condor-conf
+````
     root@storage02:~# cat /srv/fai/config/scripts/LAST/91-condor-conf 
     #! /bin/bash
     
@@ -295,9 +314,9 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
     esac
     cp -aurf /var/lib/fai/config/files/etc/condor/$CONFIG_LOCAL_FILE /target/etc/condor/condor_config.local
     cp -aurf /var/lib/fai/config/files/etc/condor/$CONFIG_FILE /target/etc/condor/condor_config
-
-  * 92-nis-conf
-
+````
+Filename: 92-nis-conf
+````
     root@storage02:~# cat /srv/fai/config/scripts/LAST/92-nis-conf 
     #! /bin/bash
     
@@ -313,10 +332,9 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
     #                cp -aurf /var/lib/fai/config/files/etc/ypserv.securenets.master /target/etc/ypserv.securenets;;
     #                cp -aurf /var/lib/fai/config/files/var/yp/Makefile.master /target/var/yp/Makefile;;
     esac
-
-
-  * 93-nfs-mount-conf
-
+````
+Filename: 93-nfs-mount-conf
+````
     root@storage02:~# cat /srv/fai/config/scripts/LAST/93-nfs-mount-conf 
     #! /bin/bash
     
@@ -325,17 +343,19 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
             humpty|dumpty|node*)
             echo "10.0.0.10:/home     /home   nfs     defaults        0       0" >> /target/etc/fstab;;
     esac
-
-  * 94-misc-conf
-
+````
+Filename: 94-misc-conf
+````
     root@storage02:~# cat /srv/fai/config/scripts/LAST/94-misc-conf 
     #! /bin/bash
     
     # copy resolve.conf file to all nodes
     cp -aurf /var/lib/fai/config/files/etc/resolv.conf.tmp /target/etc/resolv.conf
-==== FAI host wise instalation ====
-  * add the following lines into ''/srv/fai/config/class/50-host-classes'' to specifie the host wise installation differences
+````
 
+## FAI host wise installation
+- add the following lines into ''/srv/fai/config/class/50-host-classes'' to specify the host wise installation differences
+````
     ...
     node*)
         # Classes associated to the compute node...
@@ -350,14 +370,16 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
         # Classes associated to the Storage Node
         echo "FAIBASE DEBIAN DHCPC XORG XFCE STORAGE GANGLIA_NODE NIS MISC1";;
     ...
-===== Configure "dhcp" network daemons =====
-  * For booting the install client via ''PXE'', the install server needs a ''DHCP'' server and a ''TFTP'' server daemon running on ''FAI'' server. The package ''fai-quickstart'' has already installed the software packages for those daemons.
-  * Only additional, the package of the ''NFS'' server for exporting the ''nfsroot'' and the config space was installed.
+````
 
+## Configure "dhcp" network daemons
+- For booting the install client via ''PXE'', the install server needs a ''DHCP'' server and a ''TFTP'' server daemon running on ''FAI'' server. The package ''fai-quickstart'' has already installed the software packages for those daemons.
+- Only additional, the package of the ''NFS'' server for exporting the ''nfsroot'' and the config space was installed.
+````
     apt-get install syslinux-common
-
-  * Configure ''DHCP'' server and add clients by modifi ''/etc/dhpcd/dhcpd.conf'' file as follow
-
+````
+- Configure ''DHCP'' server and add clients by modifi ''/etc/dhpcd/dhcpd.conf'' file as follow
+````
     # common set up listed here...
     option domain-name "<<domain name>>";
     filename "fai/pxelinux.0";
@@ -376,26 +398,29 @@ root@storage02:~# ls -l /srv/fai/config/files/etc/hosts/
                     }
             }
     }
-
-  * Add ''FQHN'' to ''/etc/hosts'' file
-
+````
+- Add ''FQHN'' to ''/etc/hosts'' file
+````
     #fai server
     10.0.0.9	storage02.<<domain>>	storage02
     #nodes
     10.0.0.42	node032.<<domain>>	node032
-===== Building local repository/mirror =====
+````
+
+## Building local repository/mirror
 Ref:[[http://fai-project.org/fai-guide/#_a_id_debian_mirror_a_how_to_create_a_local_debian_mirror|How to create a local Debian mirror]]
-  * Create a Debian package mirror with required installation packages to a local directory ex here ''/srv/scratch/dt170918''
-
+- Create a Debian package mirror with required installation packages to a local directory ex here ''/srv/scratch/dt170918''
+````
     fai-mirror -v -c CONDOR_NODE,DEBIAN,FAIBASE,FAISERVER,GANGLIA_NODE,NIS,XFCE,XORG,GNOME,MISC,MISC1,LIGO_PACK /srv/scratch/dt170918
-
-  * sys-link the above-created directory to ''/var/www/<<mirror-name>>''
-
+````
+- sys-link the above-created directory to ''/var/www/<<mirror-name>>''
+````
     ln -s /srv/scratch/dt170918 /var/www/mirror170918
+````
+- Create a file ''sources.list'' in ''/etc/fai/apt'' directory which gives access to your local Debian mirror.
 
-  * Create a file ''sources.list'' in ''/etc/fai/apt'' directory which gives access to your local Debian mirror.
-===== Check "/srv/fai/nfsroot/etc/apt/source.list" =====
-    # These lines should work for many sites
+## Check "/srv/fai/nfsroot/etc/apt/source.list"
+```
     # Local Mirror
     deb http://10.0.0.9/alice_mirror cskoeln main contrib non-free
     deb http://http.debian.net/debian jessie main contrib non-free
@@ -403,33 +428,41 @@ Ref:[[http://fai-project.org/fai-guide/#_a_id_debian_mirror_a_how_to_create_a_lo
     # repository that may contain newer fai packages for jessie
     #deb http://fai-project.org/download jessie koeln
     #deb http://10.0.0.9/alice_mirror cskoeln main contrib non-free
-===== Install system using FAI server =====
-<code>
+````
+
+## Install system using FAI server
+````
 /etc/init.d/isc-dhcp-server restart
 /etc/init.d/tftpd-hpa restart
 
 fai-chboot -IFv -u nfs://storage02/srv/fai/config humpty
-</code>
+````
 NOTE: change the node name (i.e here "humpty") to required node that you want to install)
-====== Troubleshooting and Reference ======
-==== PXE Boot and TFTP issues ====
-  - PXE-E32 TFTP timeout
-    * Check NIS client service of FAI server running node, if NIS client running than stop NIS service. (NOTE: if NIS client of FAI server sending request to NIS server running on the node to which we are trying to install using FAI)
-    * [[https://docs.oracle.com/cd/E19045-01/b200x.blade/817-5625-10/Linux_Troubleshooting.html]]
-  - To resolve static IP changing to dynamic automatically after some time
-    * check for ''dhclient'' running ''ps -ef | grep dhclient''
-    * if dhclient running kill it ''kill <<dhclient process ID>>''
-    * reset network interface (here eth0) ''ifdown eth0 && ifup eth0''
-    * check interface ''ifconfig -a''
-    * [[https://unix.stackexchange.com/questions/205857/static-ip-changes-to-dynamic-automatically-after-time]]
-  - If PXE boot throws an error ''PXE-E11: ARP timeout'', then check ''/etc/dhcp/dhcp.conf'' file and make sure ''next-server, server-name'' the corrent IP/hostname.
+
+## Troubleshooting and Reference
+#### PXE Boot and TFTP issues
+- PXE-E32 TFTP timeout
+ - Check NIS client service of FAI server running node, if NIS client running than stop NIS service. (NOTE: if NIS client of FAI server sending request to NIS server running on the node to which we are trying to install using FAI)
+ - REF: [[https://docs.oracle.com/cd/E19045-01/b200x.blade/817-5625-10/Linux_Troubleshooting.html]]
+
+- To resolve static IP changing to dynamic automatically after some time
+- check for ''dhclient'' running ''ps -ef | grep dhclient''
+ - if dhclient running kill it ''kill <<dhclient process ID>>''
+ - reset network interface (here eth0) ''ifdown eth0 && ifup eth0''
+ - check interface ''ifconfig -a''
+ - Ref: [[https://unix.stackexchange.com/questions/205857/static-ip-changes-to-dynamic-automatically-after-time]]
+- If PXE boot throws an error ''PXE-E11: ARP timeout'', then check ''/etc/dhcp/dhcp.conf'' file and make sure ''next-server, server-name'' the corrent IP/hostname.
   - [[gpg_error|GPG key error]]
 
-==== nfsroot build fail (or) fai-setup fail ====
+### nfsroot build fail (or) fai-setup fail
 ERROR:
+```
     The following packages have unmet dependencies:
      dracut-config-generic : Depends: dracut-core but it is not going to be installed
     ...
     ERROR when calling fai-make-nfsroot.
-[[https://github.com/faiproject/fai/blob/master/conf/NFSROOT|Resolve]]: Add the following ''deb repo'' to ''/etc/fai/apt/source.list''
-    deb http://fai-project.org/download jessie koeln
+````
+Ref: [[https://github.com/faiproject/fai/blob/master/conf/NFSROOT|Resolve]]: Add the following ''deb repo'' to ''/etc/fai/apt/source.list''
+````
+deb http://fai-project.org/download jessie koeln
+````
