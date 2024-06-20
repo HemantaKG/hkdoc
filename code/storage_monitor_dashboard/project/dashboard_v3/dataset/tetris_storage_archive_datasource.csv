@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,archive.tetris.icts.res.in
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,261T
+Zpool allocated,151T
+Zpool free,110T
+Zpool capacity,57%
+Zpool fragmentation,7%
+Zpool snapshot list,tetrisarchivedatapool/backup_tetris@2020-06-11-000000 tetrisarchivedatapool/backup_tetris@2020-07-09-000000 tetrisarchivedatapool/backup_tetris@2020-08-06-000000 tetrisarchivedatapool/backup_tetris@2020-09-10-000000 tetrisarchivedatapool/backup_tetris@2020-10-08-000000 tetrisarchivedatapool/backup_tetris@2020-11-05-000000 tetrisarchivedatapool/backup_tetris@2020-11-12-000000 tetrisarchivedatapool/backup_tetris@2020-11-19-000000 tetrisarchivedatapool/backup_tetris@2020-11-25-000000 tetrisarchivedatapool/backup_tetris@2020-11-26-000000 tetrisarchivedatapool/backup_tetris@2020-11-27-000000 tetrisarchivedatapool/backup_tetris@2020-11-28-000000 tetrisarchivedatapool/backup_tetris@2020-11-29-000000 tetrisarchivedatapool/backup_tetris@2020-11-30-000000 tetrisarchivedatapool/backup_tetris@2020-12-01-000000 tetrisarchivedatapool/backup_tetris@2020-12-02-000000:1.64T 339G 146G 1000G 1.83T 120G 198G 10.9G 13.5G 15.4G 10.6G 12.0G 11.5G 22.6G 13.1G 0B:97.4T 99.6T 105T 106T 105T 109T 112T 113T 115T 115T 115T 115T 116T 116T 116T 116T
+Zpool snapshot backup status,

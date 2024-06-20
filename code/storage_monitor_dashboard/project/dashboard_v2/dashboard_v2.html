@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>storage monitor</title>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="css/styles1.css">
+  <link rel="stylesheet" href="css/styles2.css">
+</head>
+
+<body translate="no">
+  <h1>Storage Monitor</h1>
+<div class="row">
+  <div class="col">
+<!--    <h2>Open <b>multiple</b></h2> -->
+    <div class="tabs">
+<div class="tab">
+	<input type="checkbox" id= chck1>
+    <label class="tab-label" for= chck1>storage.tetris.icts.res.in</label>
+    <div class="tab-content"><div class=a><table class=a><tr><th>FQHA</th><td><font class=c>storage.tetris.icts.res.in</font></td></tr><tr><th class=a> zpool status</th><td class=a><font class=g>HEALTHY</td></tr><tr><th class=a> zpool checksum status</th><td class=a><font class=g>HEALTHY</td></tr><tr><th class=a> zpool size</th><td class=a><font class=c>261T</font></td></tr><tr><th class=a> data allocation</th><td class=a><font class=c>139T</font></td></tr><tr><th class=a> zpool used</th><td class=a><font class=c>53%</font><br><progress class=progress-g min=0 max=100 value=53></progress></td></tr><tr><th class=a> zpool fragmentation</th><td class=a><font class=c>38%<br><progress class=progress-g min=0 max=100 value=38></progress></font></td></tr><tr><th class=a>snapshot list</th><td class=a><font class=c>tetrisdatapool/home_data@2020-10-08-000000 --- 1.77T --- 105T<br>tetrisdatapool/home_data@2020-10-15-000000 --- 833G --- 105T<br>tetrisdatapool/home_data@2020-10-22-000000 --- 511G --- 105T<br>tetrisdatapool/home_data@2020-10-29-000000 --- 362G --- 105T<br>tetrisdatapool/home_data@2020-11-05-000000 --- 25.5G --- 109T<br>tetrisdatapool/home_data@2020-11-06-000000 --- 9.50G --- 109T<br>tetrisdatapool/home_data@2020-11-07-000000 --- 11.6G --- 109T<br>tetrisdatapool/home_data@2020-11-08-000000 --- 13.5G --- 109T<br>tetrisdatapool/home_data@2020-11-09-000000 --- 13.4G --- 110T<br>tetrisdatapool/home_data@2020-11-10-000000 --- 45.1G --- 110T<br>tetrisdatapool/home_data@2020-11-11-000000 --- 19.6G --- 112T<br>tetrisdatapool/home_data@2020-11-12-000000 --- 16.4G --- 112T<br>tetrisdatapool/home_data@2020-11-13-000000 --- 11.0G --- 113T<br></font></td></tr><tr><th class=a>backup status</th><td class=a><font class=c>4.23T --- 2020-11-13-000000 --- tetrisdatapool/home_data<br>12.3T --- 2020-11-13-000000 --- root@10.10.48.5:tetrisarchivedatapool/backup_tetris</font></td></tr></table></div></div></div><div class="tab">
+	<input type="checkbox" id= chck2>
+    <label class="tab-label" for= chck2>localhost.icts</label>
+    <div class="tab-content"><div class=a><table class=a><tr><th>FQHA</th><td><font class=c>localhost.icts</font></td></tr><tr><th class=a> zpool status</th><td class=a><font class=g>HEALTHY</td></tr><tr><th class=a> zpool checksum status</th><td class=a><font class=r>CHECKSUM Error</font></td></tr><tr><th class=a> zpool size</th><td class=a><font class=c>224M</font></td></tr><tr><th class=a> data allocation</th><td class=a><font class=c>388K</font></td></tr><tr><th class=a> zpool used</th><td class=a><font class=c>50%</font><br><progress class=progress-g min=0 max=100 value=50></progress></td></tr><tr><th class=a> zpool fragmentation</th><td class=a><font class=c>6%<br><progress class=progress-g min=0 max=100 value=6></progress></font></td></tr><tr><th class=a>snapshot list</th><td class=a><font class=c>NONE</font></td></tr><tr><th class=a>backup status</th><td class=a><font class=c>NONE</font></td></tr></table></div></div></div><div class="tab">
+	<input type="checkbox" id= chck3>
+    <label class="tab-label" for= chck3>icts</label>
+    <div class="tab-content"><div class=a><table class=a><tr><th>FQHA</th><td><font class=c>icts</font></td></tr><tr><th class=a> zpool status</th><td class=a><font class=g>HEALTHY</td></tr><tr><th class=a> zpool checksum status</th><td class=a><font class=g>HEALTHY</td></tr><tr><th class=a> zpool size</th><td class=a><font class=c>224M</font></td></tr><tr><th class=a> data allocation</th><td class=a><font class=c>244K</font></td></tr><tr><th class=a> zpool used</th><td class=a><font class=c>0%</font><br><progress class=progress-g min=0 max=100 value=0></progress></td></tr><tr><th class=a> zpool fragmentation</th><td class=a><font class=c>4%<br><progress class=progress-g min=0 max=100 value=4></progress></font></td></tr><tr><th class=a>snapshot list</th><td class=a><font class=c>NONE</font></td></tr><tr><th class=a>backup status</th><td class=a><font class=c>NONE</font></td></tr></table></div></div></div><div class="tab">
+	<input type="checkbox" id= chck4>
+    <label class="tab-label" for= chck4>cctvnas.icts.res.in</label>
+    <div class="tab-content"><div class=a><table class=a><tr><th>FQHA</th><td><font class=c>cctvnas.icts.res.in</font></td></tr><tr><th class=a> zpool status</th><td class=a><font class=r>FAULTY</font></td></tr><tr><th class=a> zpool checksum status</th><td class=a><font class=r>CHECKSUM Error</font></td></tr><tr><th class=a> zpool size</th><td class=a><font class=c>218T</font></td></tr><tr><th class=a> data allocation</th><td class=a><font class=c>181T</font></td></tr><tr><th class=a> zpool used</th><td class=a><font class=c>82%<br><progress class=progress-r min=0 max=100 value=82></progress></font></td></tr><tr><th class=a> zpool fragmentation</th><td class=a><font class=c>47%<br><progress class=progress-g min=0 max=100 value=47></progress></font></td></tr><tr><th class=a>snapshot list</th><td class=a><font class=c>NONE</font></td></tr><tr><th class=a>backup status</th><td class=a><font class=c>NONE</font></td></tr></table></div></div></div></div></div></div></body></html>

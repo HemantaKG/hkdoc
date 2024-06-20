@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,localhost
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,290T
+Zpool allocated,80.9T
+Zpool free,209T
+Zpool capacity,27%
+Zpool fragmentation,35%
+Zpool snapshot list,::
+Zpool snapshot backup status,

@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,turing.icts.res.in
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,145T
+Zpool allocated,139T
+Zpool free,6.35T
+Zpool capacity,95%
+Zpool fragmentation,59%
+Zpool snapshot list,::
+Zpool snapshot backup status,

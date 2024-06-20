@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,master.mario.icts.res.in
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,178T
+Zpool allocated,99.2T
+Zpool free,78.8T
+Zpool capacity,55%
+Zpool fragmentation,34%
+Zpool snapshot list,mariodatapool/home@2020-10-08-000000 mariodatapool/home@2020-11-05-000000 mariodatapool/home@2020-11-12-000000 mariodatapool/home@2020-11-19-000000 mariodatapool/home@2020-11-25-000000 mariodatapool/home@2020-11-26-000000 mariodatapool/home@2020-11-27-000000 mariodatapool/home@2020-11-28-000000 mariodatapool/home@2020-11-29-000000 mariodatapool/home@2020-11-30-000000 mariodatapool/home@2020-12-01-000000 mariodatapool/home@2020-12-02-000000:14.2G 1.69G 411M 26.9M 14.3M 11.0M 9.86M 9.43M 12.1M 6.38M 6.78M 18.3M:87.8T 88.0T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T
+Zpool snapshot backup status,16.4G 2020-12-02-000000 mariodatapool/home 22.3T 2020-12-02-000000 root@10.10.0.4:datapool/backup_mario

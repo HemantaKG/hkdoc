@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,mowgli_archive1
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,230T
+Zpool allocated,180T
+Zpool free,49.6T
+Zpool capacity,78%
+Zpool fragmentation,9%
+Zpool snapshot list,datapool/nextcloud_backup@2020-11-10-000000 datapool/nextcloud_backup@2020-11-28-000000 datapool/nextcloud_backup@2020-12-01-000000 datapool/nextcloud_backup@2020-12-02-000000:1.15G 492M 10.2M 0B:8.08T 9.43T 9.54T 8.79T
+Zpool snapshot backup status,

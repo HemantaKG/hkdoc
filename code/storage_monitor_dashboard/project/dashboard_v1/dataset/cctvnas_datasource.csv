@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,cctvnas.icts.res.in
+ZFS pool health,FAULTY
+ZFS checksum health,CHECKSUM Error
+Zpool size,218T
+Zpool allocated,181T
+Zpool free,37.4T
+Zpool capacity,82%
+Zpool fragmentation,47%
+Zpool snapshot list,::
+Zpool snapshot backup status,

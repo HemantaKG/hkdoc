@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,localhost
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,284T
+Zpool allocated,70.8T
+Zpool free,213T
+Zpool capacity,24%
+Zpool fragmentation,5%
+Zpool snapshot list,nas1pool1/data@2020-11-10-000000 nas1pool1/data@2020-11-28-000000 nas1pool1/data@2020-12-01-000000 nas1pool1/data@2020-12-02-000000:1.12G 484M 9.35M 10.4M:8.05T 9.40T 9.51T 8.76T
+Zpool snapshot backup status,835G 2020-12-02-000000 nas1pool1/data 835G 2020-12-02-000000 root@172.16.11.181:datapool/nextcloud_backup

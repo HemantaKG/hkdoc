@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,archive.mario.icts.res.in
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,230T
+Zpool allocated,124T
+Zpool free,106T
+Zpool capacity,54%
+Zpool fragmentation,6%
+Zpool snapshot list,datapool/backup_mario@2020-06-11-000000 datapool/backup_mario@2020-07-09-000000 datapool/backup_mario@2020-08-06-000000 datapool/backup_mario@2020-09-10-000000 datapool/backup_mario@2020-10-08-000000 datapool/backup_mario@2020-11-05-000000 datapool/backup_mario@2020-11-12-000000 datapool/backup_mario@2020-11-19-000000 datapool/backup_mario@2020-11-25-000000 datapool/backup_mario@2020-11-26-000000 datapool/backup_mario@2020-11-27-000000 datapool/backup_mario@2020-11-28-000000 datapool/backup_mario@2020-11-29-000000 datapool/backup_mario@2020-11-30-000000 datapool/backup_mario@2020-12-01-000000 datapool/backup_mario@2020-12-02-000000:1.98T 809M 25.4G 15.5G 908M 2.48G 456M 34.8M 19.4M 15.2M 13.5M 12.9M 15.6M 8.44M 8.87M 0B:94.4T 101T 103T 87.5T 87.9T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T 88.1T
+Zpool snapshot backup status,

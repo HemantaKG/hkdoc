@@ -1,0 +1,11 @@
+KEY,VALUE
+FQHN,contra-archive.icts.res.in
+ZFS pool health,HEALTHY
+ZFS checksum health,HEALTHY
+Zpool size,609T
+Zpool allocated,90.3T
+Zpool free,519T
+Zpool capacity,14%
+Zpool fragmentation,0%
+Zpool snapshot list,contraarchivepool/backup_contra@2020-06-11-000000 contraarchivepool/backup_contra@2020-07-09-000000 contraarchivepool/backup_contra@2020-08-06-000000 contraarchivepool/backup_contra@2020-09-10-000000 contraarchivepool/backup_contra@2020-10-08-000000 contraarchivepool/backup_contra@2020-11-05-000000 contraarchivepool/backup_contra@2020-11-12-000000 contraarchivepool/backup_contra@2020-11-19-000000 contraarchivepool/backup_contra@2020-11-25-000000 contraarchivepool/backup_contra@2020-11-26-000000 contraarchivepool/backup_contra@2020-11-27-000000 contraarchivepool/backup_contra@2020-11-28-000000 contraarchivepool/backup_contra@2020-11-29-000000 contraarchivepool/backup_contra@2020-11-30-000000 contraarchivepool/backup_contra@2020-12-01-000000 contraarchivepool/backup_contra@2020-12-02-000000:1.10T 4.07G 4.00G 54.5G 1.62T 4.55G 2.36G 5.47G 5.89G 31.6M 17.0M 13.3M 10.2M 63.9M 16.2M 0B:56.6T 61.1T 62.3T 65.5T 57.3T 57.6T 59.5T 61.4T 62.2T 62.3T 62.3T 62.4T 62.4T 62.5T 62.5T 62.6T
+Zpool snapshot backup status,
