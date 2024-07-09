@@ -34,7 +34,7 @@ NOTE: its part of **zanpzend** snapshot backup step.
 > 
 > ...
 
-Try to send the last successful backup snapshot and the next unsuccessful snapshot to backup server using zfs snapshot send ans receive command line as follow: [][|Send and Receiving a ZFS Snapshot](https://docs.oracle.com/cd/E19253-01/819-5461/gbimy/index.html)
+Try to send the last successful backup snapshot and the next unsuccessful snapshot to backup server using zfs snapshot send ans receive command line as follow: [|Send and Receiving a ZFS Snapshot](https://docs.oracle.com/cd/E19253-01/819-5461/gbimy/index.html)
 
 ```bash
 zfs send -i mariodatapool/home@2019-03-15-170000 mariodatapool/home@2019-03-15-180000 | ssh root@10.10.0.4 zfs recv -F datapool/backup_mario
