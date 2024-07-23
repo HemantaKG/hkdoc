@@ -171,7 +171,7 @@ part /scratch --fstype="ext4" --size=666000
 part swap --fstype="swap" --size=64000
 ````
 
-### Add/Update partition file to xact object osimage:
+### Add/Update partition file to xcat object osimage:
 ````
 chdef -t osimage centos7.4-x86_64-install-compute partitionfile=/install/custom/my-partitions
 ````
