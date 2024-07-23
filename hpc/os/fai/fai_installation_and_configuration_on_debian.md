@@ -133,11 +133,34 @@ Add the HD disk partition details to ''/srv/fai/config/disk_config/FAIBASE'' fil
 ````
 root@storage02:~# nano /srv/fai/config/disk_config/FAIBASE
 
+# example of new config file for setup-storage
+#
+# <type> <mountpoint> <size>   <fs type> <mount options> <misc options>
+
+disk_config disk1 disklabel:msdos bootable:1 fstabkey:uuid
+
+#primary /      2G-15G   ext4  rw,noatime,errors=remount-ro
+#logical swap   200-1G   swap  sw
+#logical /tmp   100-1G   ext4  rw,noatime,nosuid,nodev createopts="-L tmp -m 0" tuneopts="-c 0 -i 0"
+#logical /home  100-50%  ext4  rw,noatime,nosuid,nodev createopts="-L home -m 1" tuneopts="-c 0 -i 0"
+
+#ADDED BY HEMANTA
+# file system partition details for nodes...
+#primary        /boot           500     ext4    rw,noatime
+#primary        /               200G    ext4    rw,noatime,errors=remount-ro
+#logical        swap            64G     swap    sw
+#logical        /scratch        666G    ext4    rw,noatime,errors=remount-ro
+
 # file system partition details for master (humpty and dumpty)
 primary        /boot           500     ext4    rw,noatime
 primary        /               200G    ext4    rw,noatime,errors=remount-ro
 logical        swap            64G     swap    sw
 logical        /scratch        619G    ext4    rw,noatime,errors=remount-ro
+
+# file system partition details for storage and archive
+#primary        /boot           500     ext4    rw,noatime
+#primary        /               200G    ext4    rw,noatime,errors=remount-ro
+#logical        swap            64G     swap    sw
 
 ````
 
